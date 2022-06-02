@@ -1,54 +1,44 @@
 package com.mastery.java.task.dao;
 
+
 import com.mastery.java.task.dto.Employee;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.object.SqlQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class EmployeeDaoImplementation implements EmployeeDao {
 
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public EmployeeDaoImplementation(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     @Override
-    public void insertEmployee(Employee employee) {
-
-    }
-
-    @Override
-    public List<Employee> getAllEmployees() {
-      return null;
-    }
-
-    @Override
-    public Employee getEmployeeByID(Long employeeID) {
+    public List<Employee> findAll() {
         return null;
     }
 
     @Override
-    public void updateEmployeeById(Employee employee) {
-
+    public int addEmployee(Employee employee) {
+        return 0;
     }
 
     @Override
-    public void deleteEmployeeById(Long employeeId) {
+    public Optional<Employee> findById(Long id) {
+        return Optional.empty();
+    }
 
+    @Override
+    public int deleteEmployee(Long id) {
+        return 0;
+    }
+
+    @Override
+    public int updateEmployee(Long id, Employee employee) {
+        return 0;
     }
 }

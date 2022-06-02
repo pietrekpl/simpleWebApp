@@ -3,17 +3,14 @@ package com.mastery.java.task.dao;
 import com.mastery.java.task.dto.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeDao {
 
-    void insertEmployee(Employee employee);
-
-    List<Employee> getAllEmployees();
-
-    Employee getEmployeeByID(Long employeeID);
-
-    void updateEmployeeById(Employee employee);
-
-    void deleteEmployeeById(Long employeeId);
+    List<Employee> findAll();
+    int addEmployee(Employee employee);
+    Optional<Employee> findById(Long id);
+    int deleteEmployee(Long id);
+    int updateEmployee(Long id, Employee employee);
 
 }
