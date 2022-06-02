@@ -12,7 +12,7 @@ public interface EmployeeDao {
 
     Employee getEmployeeByID(Long employeeID);
 
-    void updateEmployeeById(Long employeeId);
+    void updateEmployeeById(Employee employee);
 
     void deleteEmployeeById(Long employeeId);
 
