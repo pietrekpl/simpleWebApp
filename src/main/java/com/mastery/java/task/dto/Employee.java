@@ -1,11 +1,24 @@
 package com.mastery.java.task.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Employee {
+
+    @JsonProperty("employee_id")
     private Long employeeId;
+
+    @JsonProperty("first_name")
     private String firstName;
+
+    @JsonProperty("last_name")
     private String lastName;
+
+    @JsonProperty("department_id")
     private Long departmentId;
+
+    @JsonProperty("job_title")
     private String jobTitle;
+
     private Gender gender;
 
     public Long getEmployeeId() {

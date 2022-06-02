@@ -19,12 +19,15 @@ public class EmployeeDaoImplementation implements EmployeeDao {
 
     @Override
     public List<Employee> findAll() {
-        return null;
+        String sql = "SELECT * FROM employee";
+        return jdbcTemplate.query(sql, new EmployeeRowMapper());
     }
 
     @Override
     public int addEmployee(Employee employee) {
-        return 0;
+        String sql = "INSERT into employee(employee_id,first_name,last_name,department_id,job_title) VALUES(?,?,?,?,?)";
+        return jdbcTemplate.update(sql, employee.getEmployeeId(), employee.getFirstName(), employee.getLastName(),
+                employee.getDepartmentId(), employee.getJobTitle());
     }
 
     @Override
