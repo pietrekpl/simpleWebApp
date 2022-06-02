@@ -32,16 +32,26 @@ public class EmployeeDaoImplementation implements EmployeeDao {
 
     @Override
     public Optional<Employee> findById(Long id) {
-        return Optional.empty();
+        String sql = "SELECT employee_id, first_name, last_name,department_id, job_title FROM employee where employee_id = ?";
+        return jdbcTemplate.query(sql, new EmployeeRowMapper(), id)
+                .stream()
+                .findFirst();
     }
 
     @Override
     public int deleteEmployee(Long id) {
-        return 0;
+        String sql = "DELETE FROM employee where id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 
     @Override
     public int updateEmployee(Long id, Employee employee) {
-        return 0;
+        String sql = "UPDATE employee SET first_name = ?, last_name = ?, department_id = ?, job_title = ? WHERE employee_id = ?";
+        return jdbcTemplate.update(sql,
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getDepartmentId(),
+                employee.getJobTitle(),
+                id);
     }
 }
