@@ -40,7 +40,7 @@ public class EmployeeDaoImplementation implements EmployeeDao {
 
     @Override
     public int deleteEmployee(Long id) {
-        String sql = "DELETE FROM employee where id = ?";
+        String sql = "DELETE FROM employee where employee_id = ?";
         return jdbcTemplate.update(sql, id);
     }
 
