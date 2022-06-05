@@ -26,18 +26,20 @@ public class EmployeeController {
     public List<Employee> findAll() {
         return employeeDao.findAll();
     }
+
     @GetMapping("/{id}")
-    public Employee findById(@PathVariable("id") Long id){
+    public Employee findById(@PathVariable("id") Long id) {
         return employeeDao.findById(id)
-                .orElseThrow(()-> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
+
     @PutMapping("/update/{id}")
-    public int updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id){
+    public int updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
         return employeeDao.updateEmployee(id, employee);
     }
 
     @GetMapping("/delete/{id}")
-    public void deleteEmployee(@PathVariable("id") Long id){
+    public void deleteEmployee(@PathVariable("id") Long id) {
         employeeDao.deleteEmployee(id);
     }
 }
