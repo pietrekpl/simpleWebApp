@@ -1,8 +1,8 @@
-package com.mastery.java.task.rest;
+package com.mastery.java.task.controller;
 
 
 import com.mastery.java.task.dao.EmployeeDao;
-import com.mastery.java.task.dto.Employee;
+import com.mastery.java.task.model.Employee;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

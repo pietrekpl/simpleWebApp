@@ -1,9 +1,7 @@
 package com.mastery.java.task.dao;
 
-import com.mastery.java.task.dto.Employee;
-import org.junit.jupiter.api.BeforeEach;
+import com.mastery.java.task.model.Employee;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 

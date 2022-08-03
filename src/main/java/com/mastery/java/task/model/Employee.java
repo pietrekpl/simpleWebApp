@@ -1,4 +1,4 @@
-package com.mastery.java.task.dto;
+package com.mastery.java.task.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

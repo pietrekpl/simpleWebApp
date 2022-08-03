@@ -1,7 +1,7 @@
 package com.mastery.java.task.dao;
 
 
-import com.mastery.java.task.dto.Employee;
+import com.mastery.java.task.model.Employee;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
