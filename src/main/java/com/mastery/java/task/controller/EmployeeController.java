@@ -30,10 +30,12 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
+
     @PostMapping("/employees")
-    public Employee addEmployee(@RequestBody Employee employee) {
-       return employeeService.addNewEmployee(employee);
+     public void addEmployee(@RequestBody()Employee employee){
+        employeeService.save(employee);
     }
+
 
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
@@ -57,12 +59,7 @@ public class EmployeeController {
         }
     }
 
-    /*@GetMapping("/employees/{firstName}")
-    public List<Employee> getEmployeesByFirstName(@PathVariable("firstName") String firstName){
-        return employeeService.findByFirstName(firstName);
-    }*/
-
-    // to do :  filter Employees by FirstName and LastName
+    // to do method
 }
 
 

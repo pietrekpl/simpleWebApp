@@ -4,12 +4,13 @@ import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
 @Service
-public class EmployeeServiceImplementation implements  EmployeeService {
+public class EmployeeServiceImplementation implements EmployeeService {
 
 
     private final EmployeeRepository employeeRepository;
@@ -20,7 +21,7 @@ public class EmployeeServiceImplementation implements  EmployeeService {
 
     @Override
     public List<Employee> getAllEmployees() {
-       return employeeRepository.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
@@ -29,9 +30,10 @@ public class EmployeeServiceImplementation implements  EmployeeService {
     }
 
     @Override
-    public Employee addNewEmployee(Employee employee) {
-       return employeeRepository.save(employee);
+    public void save(Employee employee) {
+       employeeRepository.save(employee);
     }
+
 
     @Override
     public void deleteEmployee(Long id) {
@@ -45,11 +47,8 @@ public class EmployeeServiceImplementation implements  EmployeeService {
 
     @Override
     public List<Employee> findByFirstName(String firstName) {
-        return employeeRepository.findByFirstName(firstName);
+        return employeeRepository.findEmployeeByFirstName(firstName);
     }
 
-    @Override
-    public List<Employee> findByFirstNameAndLastName(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameAndLastName(firstName, lastName);
-    }
+
 }

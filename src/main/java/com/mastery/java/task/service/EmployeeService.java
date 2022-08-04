@@ -2,9 +2,6 @@ package com.mastery.java.task.service;
 
 
 import com.mastery.java.task.model.Employee;
-import com.mastery.java.task.repository.EmployeeRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,7 +12,7 @@ public interface EmployeeService {
 
      Employee getEmployeeById(Long id);
 
-     Employee addNewEmployee(Employee employee);
+     void save(Employee employee);
 
      void deleteEmployee(Long id);
 
@@ -23,6 +20,6 @@ public interface EmployeeService {
 
      List<Employee> findByFirstName(String firstName);
 
-     List<Employee> findByFirstNameAndLastName(String firstName, String lastName);
+
 
 }

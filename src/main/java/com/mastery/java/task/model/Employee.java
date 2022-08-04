@@ -1,37 +1,51 @@
 package com.mastery.java.task.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
+    public Employee() {
+    }
+
+    public Employee(Long employeeId, String firstName, String lastName, Long departmentId, String jobTitle) {
+        this.employeeId = employeeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.departmentId = departmentId;
+        this.jobTitle = jobTitle;
+    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "employee_id")
+    @JsonProperty("employee_id")
     private Long employeeId;
 
 
     @Column(name = "first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
 
     @Column(name = "last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
 
     @Column(name = "department_id")
+    @JsonProperty("department_id")
     private Long departmentId;
 
 
     @Column(name = "job_title")
+    @JsonProperty("job_title")
     private String jobTitle;
 
     @Transient
     private Gender gender;
-
-    public Employee() {
-    }
 
     public Long getEmployeeId() {
         return employeeId;
