@@ -1,15 +1,24 @@
 package com.mastery.java.task.service;
 
 
-import com.mastery.java.task.dao.EmployeeDao;
+import com.mastery.java.task.model.Employee;
+import com.mastery.java.task.repository.EmployeeRepository;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-@Service
-public class EmployeeService {
+import java.util.List;
 
-    private EmployeeDao employeeDao;
 
-    public EmployeeService(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
-    }
+public interface EmployeeService {
+
+     List<Employee> getAllEmployees();
+
+     Employee getEmployeeById(Long id);
+
+     void addNewEmployee(Employee employee);
+
+     void deleteEmployee(Long id);
+
+     void updateEmployee(Employee employee, Long id);
+
 }

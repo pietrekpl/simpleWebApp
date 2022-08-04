@@ -1,46 +1,66 @@
 package com.mastery.java.task.controller;
 
 
-import com.mastery.java.task.dao.EmployeeDao;
+import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
+import com.mastery.java.task.service.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/")
 public class EmployeeController {
 
-    private EmployeeDao employeeDao;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
-    @PostMapping("/add")
-    public void addEmployee(@RequestBody Employee employee) {
-        employeeDao.addEmployee(employee);
+    @GetMapping("/employees")
+    public List<Employee> getAllEmployees() {
+        return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/all")
-    public List<Employee> findAll() {
-        return employeeDao.findAll();
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+        try {
+            Employee employee = employeeService.getEmployeeById(id);
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/{id}")
-    public Employee findById(@PathVariable("id") Long id) {
-        return employeeDao.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    @PostMapping("/employees")
+    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
+        employeeService.addNewEmployee(employee);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public int updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
-        return employeeDao.updateEmployee(id, employee);
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmploee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+        try {
+            Employee existingEmployee = employeeService.getEmployeeById(id);
+            employeeService.addNewEmployee(employee);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/delete/{id}")
-    public void deleteEmployee(@PathVariable("id") Long id) {
-        employeeDao.deleteEmployee(id);
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") Long id) {
+        try {
+            Employee existingEmployee = employeeService.getEmployeeById(id);
+            employeeService.deleteEmployee(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (EmployeeNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
 
