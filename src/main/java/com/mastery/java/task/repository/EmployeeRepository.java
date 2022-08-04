@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    @Query("FROM employeedb WHERE firstName =?1")
+    @Query(" FROM Employee WHERE firstName =?1")
     List<Employee> findByFirstName(String firstName);
 
-    @Query("SELECT a FROM employeedb a WHERE a.firstName = ?1 AND lastName = ?2")
+    @Query("SELECT a FROM Employee a WHERE a.firstName = ?1 AND lastName = ?2")
     List<Employee> findByFirstNameAndLastName(String firstName, String lastName);
 
 }
