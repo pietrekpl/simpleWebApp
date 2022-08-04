@@ -26,19 +26,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
-        try {
-            Employee employee = employeeService.getEmployeeById(id);
-            return new ResponseEntity<>(employee, HttpStatus.OK);
-        } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        public Employee getEmployee(@PathVariable("id") Long id) {
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        employeeService.addNewEmployee(employee);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public Employee addEmployee(@RequestBody Employee employee) {
+       return employeeService.addNewEmployee(employee);
     }
 
     @PutMapping("/employees/{id}")
@@ -63,10 +57,10 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/employees/{firstName}")
+    /*@GetMapping("/employees/{firstName}")
     public List<Employee> getEmployeesByFirstName(@PathVariable("firstName") String firstName){
         return employeeService.findByFirstName(firstName);
-    }
+    }*/
 
     // to do :  filter Employees by FirstName and LastName
 }

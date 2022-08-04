@@ -4,6 +4,7 @@ import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class EmployeeServiceImplementation implements  EmployeeService {
     }
 
     @Override
-    public void addNewEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    public Employee addNewEmployee(Employee employee) {
+       return employeeRepository.save(employee);
     }
 
     @Override

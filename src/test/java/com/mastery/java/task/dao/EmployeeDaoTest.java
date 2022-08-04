@@ -14,16 +14,5 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EmployeeDaoTest {
 
 
-    private final EmployeeDao employeeDao;
 
-    @Autowired
-    public EmployeeDaoTest(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
-    }
-
-    @Test
-    void findAll() {
-        List<Employee> list = employeeDao.findAll();
-        assertThat(list).size().isGreaterThan(0);
-    }
 }
