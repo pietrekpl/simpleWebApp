@@ -42,10 +42,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmploee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
-            employeeService.addNewEmployee(employee);
+            employeeService.updateEmployee(employee,id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,6 +67,8 @@ public class EmployeeController {
     public List<Employee> getEmployeesByFirstName(@PathVariable("firstName") String firstName){
         return employeeService.findByFirstName(firstName);
     }
+
+    // to do :  filter Employees by FirstName and LastName
 }
 
 
