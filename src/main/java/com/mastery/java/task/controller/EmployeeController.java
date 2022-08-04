@@ -62,6 +62,11 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/employees/{firstName}")
+    public List<Employee> getEmployeesByFirstName(@PathVariable("firstName") String firstName){
+        return employeeService.findByFirstName(firstName);
+    }
 }
 
 

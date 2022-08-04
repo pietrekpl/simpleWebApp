@@ -41,4 +41,14 @@ public class EmployeeServiceImplementation implements  EmployeeService {
     public void updateEmployee(Employee employee, Long id) {
         employeeRepository.save(employee);
     }
+
+    @Override
+    public List<Employee> findByFirstName(String firstName) {
+        return employeeRepository.findByFirstName(firstName);
+    }
+
+    @Override
+    public List<Employee> findByFirstNameAndLastName(String firstName, String lastName) {
+        return employeeRepository.findByFirstNameAndLastName(firstName, lastName);
+    }
 }

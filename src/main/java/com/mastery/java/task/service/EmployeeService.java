@@ -21,4 +21,8 @@ public interface EmployeeService {
 
      void updateEmployee(Employee employee, Long id);
 
+     List<Employee> findByFirstName(String firstName);
+
+     List<Employee> findByFirstNameAndLastName(String firstName, String lastName);
+
 }
