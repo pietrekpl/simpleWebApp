@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,10 +28,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public Employee getEmployee(@PathVariable("id") Long id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
+        try {
+            employeeService.getEmployeeById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NoSuchElementException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-
 
     @PostMapping("/employees")
     public void addEmployee(@RequestBody() Employee employee) {
@@ -60,12 +65,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/firstName")
-    public ResponseEntity<List<Employee>> getEmployeesByFirstName( @RequestParam("firstName") String firstName){
-        return new ResponseEntity<>(employeeService.getEmployeeByFirstName(firstName),HttpStatus.OK);
+    public ResponseEntity<List<Employee>> getEmployeesByFirstName(@RequestParam("firstName") String firstName) {
+        return new ResponseEntity<>(employeeService.getEmployeeByFirstName(firstName), HttpStatus.OK);
     }
 
     @GetMapping("/employees/lastName")
-    public ResponseEntity<List<Employee>> getEmployeesByLastName(@RequestParam("lastName")String lastName){
+    public ResponseEntity<List<Employee>> getEmployeesByLastName(@RequestParam("lastName") String lastName) {
         return ResponseEntity.ok(employeeService.searchByLastName(lastName));
     }
 }
