@@ -7,11 +7,11 @@ Application made with Postgres Database, Java with SpringBoot framework
 In order to use app properly use RestClient for example Postman with following :
 
 List of all employees : GET
-http://localhost:8080/simplewebapp/employee/all
+http://localhost:8080/simplewebapp/employees
  It Return List of all employees
 
 Add New Employee : POST
-http://localhost:8080/simplewebapp/employee/add
+http://localhost:8080/simplewebapp/employees
 Example in posted body : 
 {
     "employee_id" : 3,
@@ -22,12 +22,12 @@ Example in posted body :
 }
 
 Getting single employee : GET
-http://localhost:8080/simplewebapp/employee/X
+http://localhost:8080/simplewebapp/employees/X
 where X stand for employee ID
 When ID is not availaible, it returns 404 Not Found response.
 
 Updating data of employee : PUT
-http://localhost:8080/simplewebapp/employee/update/X
+http://localhost:8080/simplewebapp/employees/X
 where X stand for employee ID
 In body you may change some data :
 {
