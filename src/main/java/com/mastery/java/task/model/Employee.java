@@ -3,6 +3,7 @@ package com.mastery.java.task.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "employee")
@@ -31,7 +32,7 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
-
+    @NotNull
     @Column(name = "department_id")
     private Long departmentId;
 

@@ -6,11 +6,12 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/")
@@ -21,6 +22,8 @@ public class EmployeeController {
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
+
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
@@ -36,10 +39,9 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
     @PostMapping("/employees")
     public void addEmployee(@RequestBody() Employee employee) {
-        employeeService.save(employee);
+        employeeService.saveEmployee(employee);
     }
 
     @PutMapping("/employees/{id}")

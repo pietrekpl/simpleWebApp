@@ -27,8 +27,8 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow();
     }
 
-    public Employee save(Employee employee){
-       return employeeRepository.save(employee);
+    public void save(Employee employee){
+        employeeRepository.save(employee);
     }
     public void deleteEmployeeById(Long id){
         employeeRepository.deleteById(id);
