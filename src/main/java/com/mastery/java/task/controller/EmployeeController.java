@@ -24,7 +24,6 @@ public class EmployeeController {
     }
 
 
-
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
@@ -39,6 +38,7 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     @PostMapping("/employees")
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.saveEmployee(employee);

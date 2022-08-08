@@ -8,17 +8,17 @@ In order to use app properly use RestClient for example Postman with following :
 
 List of all employees : GET
 http://localhost:8080/simplewebapp/employees
- It Return List of all employees
+ It returns list of all employees
 
 Add New Employee : POST
 http://localhost:8080/simplewebapp/employees
-Example in posted body : 
+Example in posted body :
 {
-    "employee_id" : 3,
-    "first_name" : "Joe",
-    "last_name" : "Doe",
-    "deparment_id" : 1,
-    "job_title" : "QA"
+"employeeId": 2,
+"departmentId": 3,
+"firstName": "Joe",
+"jobTitle": "Developer",
+"lastName": "Doe"
 }
 
 Getting single employee : GET
@@ -31,11 +31,11 @@ http://localhost:8080/simplewebapp/employees/X
 where X stand for employee ID
 In body you may change some data :
 {
-    "employee_id" : 3,
-    "first_name" : "Joe",
-    "last_name" : "Doe",
-    "deparment_id" : 1,
-    "job_title" : "QA"
+"employeeId": 2,
+"departmentId": 3,
+"firstName": "Joe",
+"jobTitle": "QA",
+"lastName": "Doe"
 }
 
 Deleting an employee  : 
