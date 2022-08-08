@@ -24,7 +24,7 @@ Example in posted body :
 Getting single employee : GET
 http://localhost:8080/simplewebapp/employees/X
 where X stand for employee ID
-When ID is not availaible, it returns 404 Not Found response.
+
 
 Updating data of employee : PUT
 http://localhost:8080/simplewebapp/employees/X

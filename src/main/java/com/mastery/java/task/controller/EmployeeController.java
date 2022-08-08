@@ -30,13 +30,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
-        try {
-            employeeService.getEmployeeById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public Employee getEmployee(@PathVariable("id") Long id) {
+      return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/employees")
