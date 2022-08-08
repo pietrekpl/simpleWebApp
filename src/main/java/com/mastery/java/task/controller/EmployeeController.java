@@ -6,11 +6,9 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @RestController
@@ -31,7 +29,7 @@ public class EmployeeController {
 
     @GetMapping("/employees/{id}")
     public Employee getEmployee(@PathVariable("id") Long id) {
-      return employeeService.getEmployeeById(id);
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping("/employees")
