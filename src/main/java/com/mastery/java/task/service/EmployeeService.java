@@ -22,7 +22,7 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(()-> new EmployeeNotFoundException(id));
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     public void save(Employee employee) {
@@ -41,7 +41,7 @@ public class EmployeeService {
         return employeeRepository.findByFirstName(firstName);
     }
 
-    public List<Employee> searchByLastName(String lastName) {
+    public List<Employee> searchByLastName(String lastName)  {
         return employeeRepository.findByLastName(lastName);
     }
 

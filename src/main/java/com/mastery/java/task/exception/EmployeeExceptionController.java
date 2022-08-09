@@ -21,11 +21,11 @@ import java.util.NoSuchElementException;
 public class EmployeeExceptionController extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse){
-        return new ResponseEntity<>(errorResponse,errorResponse.getStatus());
+        return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
     }
 
    @ExceptionHandler(EmployeeNotFoundException.class)
-   public ResponseEntity<Object> handleNoSuchException(HttpServletRequest request, EmployeeNotFoundException exception){
+   public ResponseEntity<Object> handleNoEmployeeFoundException(HttpServletRequest request, EmployeeNotFoundException exception){
        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(),"Employee with ID "+exception.getId()+" does not exists."));
    }
 

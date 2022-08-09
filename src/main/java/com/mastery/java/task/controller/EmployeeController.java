@@ -7,14 +7,12 @@ import com.mastery.java.task.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/")
 public class EmployeeController {
-
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
@@ -54,7 +52,7 @@ public class EmployeeController {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.deleteEmployeeById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EmployeeNotFoundException e) {
+        } catch (EmployeeNotFoundException exception) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
