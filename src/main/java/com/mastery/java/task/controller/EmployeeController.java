@@ -4,24 +4,29 @@ package com.mastery.java.task.controller;
 import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/")
+@Slf4j
 public class EmployeeController {
+
+
     private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
+        log.info("Employees in database : "+ (long) employeeService.getAllEmployees().size());
         return employeeService.getAllEmployees();
     }
 
@@ -33,6 +38,8 @@ public class EmployeeController {
     @PostMapping("/employees")
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.saveEmployee(employee);
+        log.info("Employee : " + employee + " has been added to database");
+        log.info("Employees in database : "+ (long) employeeService.getAllEmployees().size());
     }
 
     @PutMapping("/employees/{id}")
@@ -40,8 +47,10 @@ public class EmployeeController {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.updateEmployee(employee, id);
+            log.info("Employee with ID " + id + " has been successfully updated");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
+            log.info("Employee not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -51,8 +60,10 @@ public class EmployeeController {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.deleteEmployeeById(id);
+            log.info("Employee with id "+ id + " has been deleted");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException exception) {
+            log.info("Employee with id "+ id + " has not been found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
