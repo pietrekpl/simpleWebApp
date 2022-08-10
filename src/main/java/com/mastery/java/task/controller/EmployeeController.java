@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+// get prefix
+// correct methods  delete / put
+// move exception handling to service
+// change 2 methods from searching firstName / lastName and merge into one
 @RestController
 @RequestMapping("/")
 @Slf4j

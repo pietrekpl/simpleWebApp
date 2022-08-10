@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+
+// to lombok
 @Entity
 @Table(name = "employee")
 public class Employee {

@@ -4,6 +4,7 @@ public class EmployeeNotFoundException extends RuntimeException {
 
     private final Long id;
 
+
     public Long getId() {
         return id;
     }
