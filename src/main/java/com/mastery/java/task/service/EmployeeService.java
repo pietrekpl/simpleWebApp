@@ -5,7 +5,9 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // add exception handling from employee controller
 @Service
@@ -38,12 +40,14 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    public List<Employee> getEmployeeByFirstName(String firstName) {
-        return employeeRepository.findByFirstName(firstName);
-    }
-
-    public List<Employee> searchByLastName(String lastName) {
-        return employeeRepository.findByLastName(lastName);
+    public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
+        List<Employee> listAllEmployees = employeeRepository.findAll();
+        for (Employee employee : listAllEmployees) {
+            if (employee.getFirstName().equals(firstName) || employee.getLastName().equals(lastName)) {
+                return new ArrayList<>(employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName));
+            }
+        }
+        return listAllEmployees;
     }
 
 

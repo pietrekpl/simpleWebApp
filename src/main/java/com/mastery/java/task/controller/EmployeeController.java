@@ -12,7 +12,6 @@ import java.util.List;
 
 // correct methods  delete / put
 // move exception handling to service
-// change 2 methods from searching firstName / lastName and merge into one
 // add some custom logs
 @RestController
 @RequestMapping("/employees")
@@ -64,15 +63,12 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/firstName")
-    public ResponseEntity<List<Employee>> getEmployeesByFirstName(@RequestParam("firstName") String firstName) {
-        return new ResponseEntity<>(employeeService.getEmployeeByFirstName(firstName), HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<List<Employee>> getEmployeesByFirstNameOrLastName(@RequestParam(value = "firstName", required = false) String firstName,
+                                                                            @RequestParam(value = "lastName", required = false) String lastName) {
+        return ResponseEntity.ok(employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName));
     }
 
-    @GetMapping("/lastName")
-    public ResponseEntity<List<Employee>> getEmployeesByLastName(@RequestParam("lastName") String lastName) {
-        return ResponseEntity.ok(employeeService.searchByLastName(lastName));
-    }
 }
 
 
