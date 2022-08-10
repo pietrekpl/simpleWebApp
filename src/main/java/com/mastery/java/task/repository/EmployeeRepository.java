@@ -1,8 +1,6 @@
 package com.mastery.java.task.repository;
 
 import com.mastery.java.task.model.Employee;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,7 +15,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e WHERE e.lastName LIKE %:lastName%")
     List<Employee> findByLastName(String lastName);
-
 
 
 }

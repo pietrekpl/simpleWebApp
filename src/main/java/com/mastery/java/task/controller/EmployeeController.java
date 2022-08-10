@@ -1,6 +1,5 @@
 package com.mastery.java.task.controller;
 
-
 import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
@@ -29,7 +28,7 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
-        log.info("Employees in database : "+ (long) employeeService.getAllEmployees().size());
+        log.info("Employees in database : " + (long) employeeService.getAllEmployees().size());
         return employeeService.getAllEmployees();
     }
 
@@ -42,7 +41,7 @@ public class EmployeeController {
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.saveEmployee(employee);
         log.info("Employee : " + employee + " has been added to database");
-        log.info("Employees in database : "+ (long) employeeService.getAllEmployees().size());
+        log.info("Employees in database : " + (long) employeeService.getAllEmployees().size());
     }
 
     @PutMapping("/employees/{id}")
@@ -63,10 +62,10 @@ public class EmployeeController {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.deleteEmployeeById(id);
-            log.info("Employee with id "+ id + " has been deleted");
+            log.info("Employee with id " + id + " has been deleted");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException exception) {
-            log.info("Employee with id "+ id + " has not been found");
+            log.info("Employee with id " + id + " has not been found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
