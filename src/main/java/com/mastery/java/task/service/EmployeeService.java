@@ -42,12 +42,9 @@ public class EmployeeService {
         return employeeRepository.findByFirstName(firstName);
     }
 
-    public List<Employee> searchByLastName(String lastName)  {
+    public List<Employee> searchByLastName(String lastName) {
         return employeeRepository.findByLastName(lastName);
     }
 
-    public void saveEmployee(Employee employee) {
-        employeeRepository.save(employee);
-    }
 
 }

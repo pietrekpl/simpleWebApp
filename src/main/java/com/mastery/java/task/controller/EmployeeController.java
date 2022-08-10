@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// get prefix
 // correct methods  delete / put
 // move exception handling to service
 // change 2 methods from searching firstName / lastName and merge into one
+// add some custom logs
 @RestController
-@RequestMapping("/")
+@RequestMapping("/employees")
 @Slf4j
 public class EmployeeController {
 
@@ -26,56 +26,50 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/employees")
+    @GetMapping("")
     public List<Employee> getAllEmployees() {
         log.info("Employees in database : " + (long) employeeService.getAllEmployees().size());
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable("id") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @PostMapping("/employees")
+    @PostMapping("")
     public void addEmployee(@RequestBody() Employee employee) {
-        employeeService.saveEmployee(employee);
-        log.info("Employee : " + employee + " has been added to database");
-        log.info("Employees in database : " + (long) employeeService.getAllEmployees().size());
+        employeeService.save(employee);
     }
 
-    @PutMapping("/employees/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.updateEmployee(employee, id);
-            log.info("Employee with ID " + id + " has been successfully updated");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException e) {
-            log.info("Employee not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") Long id) {
         try {
             Employee existingEmployee = employeeService.getEmployeeById(id);
             employeeService.deleteEmployeeById(id);
-            log.info("Employee with id " + id + " has been deleted");
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (EmployeeNotFoundException exception) {
-            log.info("Employee with id " + id + " has not been found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/employees/firstName")
+    @GetMapping("/firstName")
     public ResponseEntity<List<Employee>> getEmployeesByFirstName(@RequestParam("firstName") String firstName) {
         return new ResponseEntity<>(employeeService.getEmployeeByFirstName(firstName), HttpStatus.OK);
     }
 
-    @GetMapping("/employees/lastName")
+    @GetMapping("/lastName")
     public ResponseEntity<List<Employee>> getEmployeesByLastName(@RequestParam("lastName") String lastName) {
         return ResponseEntity.ok(employeeService.searchByLastName(lastName));
     }
