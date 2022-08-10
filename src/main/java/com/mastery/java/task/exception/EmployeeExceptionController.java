@@ -22,7 +22,7 @@ public class EmployeeExceptionController  {
     }
 
    @ExceptionHandler(EmployeeNotFoundException.class)
-   public ResponseEntity<Object> handleNoEmployeeFoundException(HttpServletRequest request, EmployeeNotFoundException exception){
+   public ResponseEntity<Object> handleNoEmployeeFoundException(EmployeeNotFoundException exception){
        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(),"Employee with ID "+exception.getId()+" does not exists."));
    }
 
