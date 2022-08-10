@@ -27,7 +27,6 @@ public class EmployeeController {
 
     @GetMapping("")
     public List<Employee> getAllEmployees() {
-        log.info("Employees in database : " + (long) employeeService.getAllEmployees().size());
         return employeeService.getAllEmployees();
     }
 
@@ -43,14 +42,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
-        try {
-            Employee existingEmployee = employeeService.getEmployeeById(id);
-            employeeService.updateEmployee(employee, id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EmployeeNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+        return employeeService.updateEmployee(employee, id);
     }
 
     @DeleteMapping("/{id}")

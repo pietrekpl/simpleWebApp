@@ -34,11 +34,17 @@ public class EmployeeService {
     }
 
     public void deleteEmployeeById(Long id) {
-        employeeRepository.deleteById(id);
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        employeeRepository.deleteById(existingEmployee.getEmployeeId());
     }
 
-    public void updateEmployee(Employee employee, Long id) {
-        employeeRepository.save(employee);
+    public Employee updateEmployee(Employee employee, Long id) {
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setDepartmentId(employee.getDepartmentId());
+        existingEmployee.setJobTitle(employee.getJobTitle());
+        return employeeRepository.save(existingEmployee);
     }
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
