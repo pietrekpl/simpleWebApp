@@ -36,6 +36,7 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
@@ -53,14 +54,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Employee> deleteEmployee(@PathVariable("id") Long id) {
-        try {
-            Employee existingEmployee = employeeService.getEmployeeById(id);
-            employeeService.deleteEmployeeById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (EmployeeNotFoundException exception) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public void deleteEmployee(@PathVariable("id") Long id) {
+        employeeService.deleteEmployeeById(id);
     }
 
     @GetMapping("/")
@@ -68,7 +63,6 @@ public class EmployeeController {
                                                                             @RequestParam(value = "lastName", required = false) String lastName) {
         return ResponseEntity.ok(employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName));
     }
-
 }
 
 

@@ -20,7 +20,6 @@ public class EmployeeExceptionController {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public ResponseEntity<Object> handleNoEmployeeFoundException(EmployeeNotFoundException exception) {
-
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(), "Employee with ID " + exception.getId() + " does not exists."));
     }
 
@@ -28,6 +27,4 @@ public class EmployeeExceptionController {
     public ResponseEntity<Object> handleGeneralException(Exception exception) {
         return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, LocalDateTime.now(), exception.getMessage()));
     }
-
-
 }
