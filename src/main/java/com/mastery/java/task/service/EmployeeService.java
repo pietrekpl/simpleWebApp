@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -43,13 +44,19 @@ public class EmployeeService {
         employeeRepository.deleteById(existingEmployee.getEmployeeId());
     }
 
-    public Employee updateEmployee(Employee employee, Long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
-        existingEmployee.setFirstName(employee.getFirstName());
-        existingEmployee.setLastName(employee.getLastName());
-        existingEmployee.setDepartmentId(employee.getDepartmentId());
-        existingEmployee.setJobTitle(employee.getJobTitle());
-        return employeeRepository.save(existingEmployee);
+    public void updateOrCreateEmployee(Employee employee) {
+        for (Employee existingEmployee : employeeRepository.findAll()) {
+            if (Objects.equals(employee.getEmployeeId(), existingEmployee.getEmployeeId())) {
+                existingEmployee.setFirstName(employee.getFirstName());
+                existingEmployee.setLastName(employee.getLastName());
+                existingEmployee.setDepartmentId(employee.getDepartmentId());
+                existingEmployee.setJobTitle(employee.getJobTitle());
+                employeeRepository.save(existingEmployee);
+            } else {
+                employeeRepository.save(employee);
+            }
+        }
+
     }
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {

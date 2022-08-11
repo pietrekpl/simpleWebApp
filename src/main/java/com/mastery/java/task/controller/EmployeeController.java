@@ -21,7 +21,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
@@ -32,14 +32,14 @@ public class EmployeeController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("")
+    @PostMapping()
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
     }
 
-    @PutMapping("/{id}")
-    public Employee updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
-        return employeeService.updateEmployee(employee, id);
+    @PutMapping()
+    public void updateOrCreateEmployee(@RequestBody Employee employee) {
+         employeeService.updateOrCreateEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
