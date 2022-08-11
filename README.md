@@ -14,12 +14,12 @@ Add New Employee : POST
 http://localhost:8080/simplewebapp/employees
 Example in posted body :
 {
-"employeeId": 2,
 "departmentId": 3,
 "firstName": "Joe",
 "jobTitle": "Developer",
 "lastName": "Doe"
 }
+employeeId will be incremented automatically
 
 Getting single employee : GET
 http://localhost:8080/simplewebapp/employees/X
@@ -27,9 +27,8 @@ where X stand for employee ID
 
 
 Updating data of employee : PUT
-http://localhost:8080/simplewebapp/employees/X
-where X stand for employee ID
-In body you may change some data :
+http://localhost:8080/simplewebapp/employees
+In body you may change some data of existing employee :
 {
 "employeeId": 2,
 "departmentId": 3,
@@ -37,20 +36,18 @@ In body you may change some data :
 "jobTitle": "QA",
 "lastName": "Doe"
 }
+In case employee is not present, a new one will be created
 
 Deleting an employee  : 
 Method : DELETE
 http://localhost:8080/simplewebapp/employees/X
 where x stand for employee ID
 
-Filter Employees by firstName :
-http://localhost:8080/simplewebapp/employees/firstName?firstName=X
-where X stand for Employee firstName. Only few letter of firstName is required to get desired firstName.
+Filter Employees by firstName, lastName or both :
+http://localhost:8080/simplewebapp/employees/?firstName=X
+where firstName or lastName is queried param and X stand for searched value
+In case when firstName or lastName is not found the list of employees will be returned
 
-Filter Employees by lastName :
-http://localhost:8080/simplewebapp/employees/lastName?lastName=X
-where X stand for Employee lastName. Only few letter of lastName is required to get desired lastName.
-        
         
   
 
