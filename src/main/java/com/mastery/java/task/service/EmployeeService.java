@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -29,8 +30,15 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+
+    public Optional<Employee> getEmployeeById(Long id) {
+        boolean isEmployeePresent = employeeRepository.existsById(id);
+        if (isEmployeePresent) {
+            return employeeRepository.findById(id);
+        } else {
+            log.error("Error occurred : Method getEmployeeById() takes id = {}", id);
+            throw new EmployeeNotFoundException(id);
+        }
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,9 +47,14 @@ public class EmployeeService {
     }
 
     public void deleteEmployeeById(Long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
-        log.error("Method deleteEmployeeById takes id : {}", id);
-        employeeRepository.deleteById(existingEmployee.getEmployeeId());
+        boolean isEmployeePresent = employeeRepository.existsById(id);
+        if (isEmployeePresent) {
+            employeeRepository.deleteById(id);
+        } else {
+            log.error("Method deleteEmployeeById() takes id : {}", id);
+            throw new EmployeeNotFoundException(id);
+        }
+
     }
 
     public void updateOrCreateEmployee(Employee employee) {

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
@@ -27,11 +28,11 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployee(@PathVariable("id") Long id) {
+    public Optional<Employee> getEmployee(@PathVariable("id") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+
     @PostMapping()
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
@@ -39,7 +40,7 @@ public class EmployeeController {
 
     @PutMapping()
     public void updateOrCreateEmployee(@RequestBody Employee employee) {
-         employeeService.updateOrCreateEmployee(employee);
+        employeeService.updateOrCreateEmployee(employee);
     }
 
     @DeleteMapping("/{id}")
