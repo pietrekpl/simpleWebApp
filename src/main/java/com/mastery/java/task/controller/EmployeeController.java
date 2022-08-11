@@ -1,18 +1,14 @@
 package com.mastery.java.task.controller;
 
-import com.mastery.java.task.exception.EmployeeNotFoundException;
+
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// correct methods  delete / put
-// move exception handling to service
-// add some custom logs
 @RestController
 @RequestMapping("/employees")
 @Slf4j
@@ -52,9 +48,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Employee>> getEmployeesByFirstNameOrLastName(@RequestParam(value = "firstName", required = false) String firstName,
-                                                                            @RequestParam(value = "lastName", required = false) String lastName) {
-        return ResponseEntity.ok(employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName));
+    public List<Employee> getEmployeesByFirstNameOrLastName(@RequestParam(value = "firstName", required = false) String firstName,
+                                                            @RequestParam(value = "lastName", required = false) String lastName) {
+        return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
     }
 }
 

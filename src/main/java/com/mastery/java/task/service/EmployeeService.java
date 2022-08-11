@@ -3,15 +3,18 @@ package com.mastery.java.task.service;
 import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-// add exception handling from employee controller
+
 @Service
+@Slf4j
 public class EmployeeService {
 
 
@@ -29,12 +32,14 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
 
     public void deleteEmployeeById(Long id) {
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        log.error("Method deleteEmployeeById takes id : {}", id);
         employeeRepository.deleteById(existingEmployee.getEmployeeId());
     }
 
