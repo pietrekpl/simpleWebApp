@@ -3,6 +3,7 @@ package com.mastery.java.task.service;
 import com.mastery.java.task.exception.EmployeeNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @Service
@@ -31,14 +31,9 @@ public class EmployeeService {
     }
 
 
-    public Optional<Employee> getEmployeeById(Long id) {
-        boolean isEmployeePresent = employeeRepository.existsById(id);
-        if (isEmployeePresent) {
-            return employeeRepository.findById(id);
-        } else {
-            log.error("Error occurred : Method getEmployeeById() takes id = {}", id);
-            throw new EmployeeNotFoundException(id);
-        }
+    public Employee getEmployeeById(Long id) {
+        log.info("Method getEmployeeById() takes Id {}", id);
+        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,14 +42,16 @@ public class EmployeeService {
     }
 
     public void deleteEmployeeById(Long id) {
-        boolean isEmployeePresent = employeeRepository.existsById(id);
-        if (isEmployeePresent) {
+        boolean existingEmployee = employeeRepository.existsById(id);
+        if (existingEmployee) {
             employeeRepository.deleteById(id);
+            log.info("Method deleteEmployeeById() takes Id {}", id);
         } else {
-            log.error("Method deleteEmployeeById() takes id : {}", id);
-            throw new EmployeeNotFoundException(id);
+            EmployeeNotFoundException exception = new EmployeeNotFoundException(id);
+            log.error("Method deleteEmployeeById() takes Id {} ", id);
+            log.error("Exception occurred in : ", exception);
+            throw exception;
         }
-
     }
 
     public void updateOrCreateEmployee(Employee employee) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 @RestController
 @RequestMapping("/employees")
@@ -22,23 +23,23 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
     @GetMapping("/{id}")
-    public Optional<Employee> getEmployee(@PathVariable("id") Long id) {
+    public Employee getEmployee(@PathVariable("id") Long id) {
         return employeeService.getEmployeeById(id);
     }
 
 
-    @PostMapping()
+    @PostMapping
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
     }
 
-    @PutMapping()
+    @PutMapping
     public void updateOrCreateEmployee(@RequestBody Employee employee) {
         employeeService.updateOrCreateEmployee(employee);
     }
