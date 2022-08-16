@@ -3,44 +3,39 @@ package com.mastery.java.task.service;
 import com.mastery.java.task.exception.ResourceNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmployeeService {
 
 
     private final EmployeeRepository employeeRepository;
-
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
-    }
 
 
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
 
     // correct method
     public void deleteEmployeeById(Long id) {
-        employeeRepository.deleteById(id);
+        boolean isExistingEmployee = employeeRepository.existsById(id);
+        if (isExistingEmployee) {
+            employeeRepository.deleteById(id);
+        } else {
+            throw new ResourceNotFoundException("Employee with ID " + id + " not found");
+        }
     }
 
     public void updateEmployee(Employee employee, Long id) {
@@ -55,10 +50,11 @@ public class EmployeeService {
 
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        if (firstName == null && lastName == null) {
+        List<Employee>filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName);
+        if ((firstName == null && lastName == null) || filteredEmployeesByFirstNameOrLastName.isEmpty()) {
             return employeeRepository.findAll();
         }
-        return employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName);
+        return filteredEmployeesByFirstNameOrLastName;
     }
 
 
