@@ -3,13 +3,12 @@ package com.mastery.java.task.controller;
 
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.ExecutorService;
+
 
 @RestController
 @RequestMapping("/employees")
@@ -24,8 +23,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public List<Employee> getEmployeesByFirstNameOrLastNameOrGetAllEmployees(@RequestParam(value = "firstName", required = false) String firstName,
+                                                                             @RequestParam(value = "lastName", required = false) String lastName) {
+        return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
     }
 
     @GetMapping("/{id}")
@@ -49,11 +49,6 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
     }
 
-    @GetMapping("/")
-    public List<Employee> getEmployeesByFirstNameOrLastName(@RequestParam(value = "firstName", required = false) String firstName,
-                                                            @RequestParam(value = "lastName", required = false) String lastName) {
-        return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
-    }
 }
 
 

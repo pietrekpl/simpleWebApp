@@ -53,7 +53,7 @@ public class EmployeeService {
             throw exception;
         }
     }
-
+    // correct method
     public void updateOrCreateEmployee(Employee employee) {
         for (Employee existingEmployee : employeeRepository.findAll()) {
             if (Objects.equals(employee.getEmployeeId(), existingEmployee.getEmployeeId())) {
@@ -68,7 +68,7 @@ public class EmployeeService {
         }
 
     }
-
+    // correct method
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
         List<Employee> listAllEmployees = employeeRepository.findAll();
         for (Employee employee : listAllEmployees) {

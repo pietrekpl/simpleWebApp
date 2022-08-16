@@ -1,8 +1,6 @@
 package com.mastery.java.task.exception;
 
 
-import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,7 +10,7 @@ import java.time.LocalDateTime;
 
 
 @RestControllerAdvice
-public class EmployeeExceptionController {
+public class EmployeeExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
