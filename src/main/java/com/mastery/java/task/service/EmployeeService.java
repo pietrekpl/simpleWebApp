@@ -30,20 +30,21 @@ public class EmployeeService {
 
 
     public Employee getEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID "+ id+" not found"));
+        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
+
     // correct method
     public void deleteEmployeeById(Long id) {
         employeeRepository.deleteById(id);
     }
 
     public void updateEmployee(Employee employee, Long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID "+ id+" not found"));
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());
@@ -52,15 +53,12 @@ public class EmployeeService {
 
     }
 
-    //correct Method
+
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        List<Employee> listAllEmployees = employeeRepository.findAll();
-        for (Employee employee : listAllEmployees) {
-            if (employee.getFirstName().equals(firstName) || employee.getLastName().equals(lastName)) {
-                return new ArrayList<>(employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName));
-            }
+        if (firstName == null && lastName == null) {
+            return employeeRepository.findAll();
         }
-        return listAllEmployees;
+        return employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName);
     }
 
 
