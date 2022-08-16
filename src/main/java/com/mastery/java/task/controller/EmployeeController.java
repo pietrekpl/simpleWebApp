@@ -23,8 +23,8 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getEmployeesByFirstNameOrLastNameOrGetAllEmployees(@RequestParam(value = "firstName", required = false) String firstName,
-                                                                             @RequestParam(value = "lastName", required = false) String lastName) {
+    public List<Employee> getFilteredEmployeeOrAllEmployees(@RequestParam(value = "firstName", required = false) String firstName,
+                                                            @RequestParam(value = "lastName", required = false) String lastName) {
         return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
     }
 

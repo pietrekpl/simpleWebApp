@@ -16,9 +16,9 @@ public class EmployeeExceptionHandler {
         return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
     }
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<Object> handleNoEmployeeFoundException(EmployeeNotFoundException exception) {
-        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(), "Employee with ID " + exception.getId() + " does not exists."));
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Object> handleNoResourceFoundException(ResourceNotFoundException exception) {
+        return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(), exception.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)

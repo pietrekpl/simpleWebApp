@@ -1,9 +1,8 @@
 package com.mastery.java.task.service;
 
-import com.mastery.java.task.exception.EmployeeNotFoundException;
+import com.mastery.java.task.exception.ResourceNotFoundException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 
 @Service
@@ -33,8 +30,7 @@ public class EmployeeService {
 
 
     public Employee getEmployeeById(Long id) {
-        log.info("Method getEmployeeById() takes Id {}", id);
-        return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID "+ id+" not found"));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,7 +43,7 @@ public class EmployeeService {
     }
 
     public void updateEmployee(Employee employee, Long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID "+ id+" not found"));
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());
