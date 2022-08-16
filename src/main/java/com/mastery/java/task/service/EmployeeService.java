@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -40,35 +41,22 @@ public class EmployeeService {
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
-
+    // correct method
     public void deleteEmployeeById(Long id) {
-        boolean existingEmployee = employeeRepository.existsById(id);
-        if (existingEmployee) {
-            employeeRepository.deleteById(id);
-            log.info("Method deleteEmployeeById() takes Id {}", id);
-        } else {
-            EmployeeNotFoundException exception = new EmployeeNotFoundException(id);
-            log.error("Method deleteEmployeeById() takes Id {} ", id);
-            log.error("Exception occurred in : ", exception);
-            throw exception;
-        }
+        employeeRepository.deleteById(id);
     }
-    // correct method
-    public void updateOrCreateEmployee(Employee employee) {
-        for (Employee existingEmployee : employeeRepository.findAll()) {
-            if (Objects.equals(employee.getEmployeeId(), existingEmployee.getEmployeeId())) {
-                existingEmployee.setFirstName(employee.getFirstName());
-                existingEmployee.setLastName(employee.getLastName());
-                existingEmployee.setDepartmentId(employee.getDepartmentId());
-                existingEmployee.setJobTitle(employee.getJobTitle());
-                employeeRepository.save(existingEmployee);
-            } else {
-                employeeRepository.save(employee);
-            }
-        }
+
+    public void updateEmployee(Employee employee, Long id) {
+        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setJobTitle(employee.getJobTitle());
+        existingEmployee.setDepartmentId(employee.getDepartmentId());
+        employeeRepository.save(existingEmployee);
 
     }
-    // correct method
+
+    //correct Method
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
         List<Employee> listAllEmployees = employeeRepository.findAll();
         for (Employee employee : listAllEmployees) {
