@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @Operation(summary = "Returns all employees or filter employees based on firstName or lastName param",
-            description = "When no parameter is applied or no firstName/lastName are found, list of all employees is being returned",
+            description = "When no `parameter` is applied or no `firstName`/`lastName` is found, list of all employees is being returned",
             responses = {@ApiResponse(description = "Success", responseCode = "200",
                     content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
                             [
@@ -64,8 +63,8 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    @Operation(summary = "Get Employee by Id",
-            description = "Gets single employee by Id",
+    @Operation(summary = "Get Employee by ID",
+            description = "Gets single employee by ID",
             responses = {@ApiResponse(description = "Success", responseCode = "200", content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
                       {
                           "employeeId": 1,
@@ -75,7 +74,15 @@ public class EmployeeController {
                             "jobTitle": "Agent"
                          }
                     """))),
-                    @ApiResponse(description = "Employee with requested Id not found", responseCode = "404", content = @Content(schema = @Schema(implementation = ResourceNotFoundException.class)))})
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
+                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                            value = """
+                                     {
+                                          "status": "NOT_FOUND",
+                                          "timestamp": "17/08/2022 02:41:28",
+                                          "message": "Employee with ID 1111 not found"
+                                      }
+                            """)))})
     public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method getEmployee() takes id = {}", id);
         return employeeService.getEmployeeById(id);
@@ -86,7 +93,7 @@ public class EmployeeController {
     @PostMapping
     @Operation(summary = "Add new employee", description = "Add new Employee",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to provide the new employee." +
-                    " The `employeeId` could be omitted, and will be accessible even if not specified.", content = @Content(
+                    " The `employeeId` field is omitted, because of automatic assignment", content = @Content(
                     examples = @ExampleObject(description = "Provides an example `employee` request body to save:",
                             value = """
                                       {
@@ -105,7 +112,20 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public void updateEmployee(@RequestBody Employee employee, @PathVariable("id") Long id) {
+    @Operation(summary = "Update employee", description = "Update employee",   requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to update employee." +
+            " The `employeeId` field is omitted, it is already requested in path", content = @Content(
+            examples = @ExampleObject(description = "Provides an example `employee` request body to update:",
+                    value = """
+                                      {
+                                           "firstName": "James",
+                                           "lastName": "Bond",
+                                           "departmentId": 7,
+                                            "jobTitle": "Agent"
+                                         }
+                                    """
+            )
+    )))
+    public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         employeeService.updateEmployee(employee, id);
     }
@@ -113,9 +133,17 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete employee by provided ID",
-            description = "Delete single employee by provided Id",
+            description = "Delete single employee by provided ID",
             responses = {@ApiResponse(description = "Successfully deleted", responseCode = "204"),
-                    @ApiResponse(description = "Employee with requested Id not found", responseCode = "404", content = @Content(schema = @Schema(implementation = ResourceNotFoundException.class)))})
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
+                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                                    value = """
+                                     {
+                                          "status": "NOT_FOUND",
+                                          "timestamp": "17/08/2022 02:41:28",
+                                          "message": "Employee with ID 1111 not found"
+                                      }
+                            """)))})
     public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
