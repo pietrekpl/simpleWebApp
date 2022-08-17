@@ -51,7 +51,16 @@ public class EmployeeController {
                                   "jobTitle": "President"
                               }
                             ]
-                            """)))},
+                            """))),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
+                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                                    value = """
+                                                     {
+                                                          "status": "Internal Server Error",
+                                                          "timestamp": "17/08/2022 02:41:28",
+                                                          "message": "could not execute statement"
+                                                      }
+                                            """)))},
             parameters = {@Parameter(name = "firstName", description = "Employee first name (Optional)"),
                     @Parameter(name = "lastName", description = "Employee last name (Optional)")}
     )
@@ -76,13 +85,22 @@ public class EmployeeController {
                     """))),
                     @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
                             content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                            value = """
-                                     {
-                                          "status": "NOT_FOUND",
-                                          "timestamp": "17/08/2022 02:41:28",
-                                          "message": "Employee with ID 1111 not found"
-                                      }
-                            """)))})
+                                    value = """
+                                                     {
+                                                          "status": "NOT_FOUND",
+                                                          "timestamp": "17/08/2022 02:41:28",
+                                                          "message": "Employee with ID 1111 not found"
+                                                      }
+                                            """))),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
+                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                                    value = """
+                                                     {
+                                                          "status": "Internal Server Error",
+                                                          "timestamp": "17/08/2022 02:41:28",
+                                                          "message": "could not execute statement"
+                                                      }
+                                            """)))})
     public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method getEmployee() takes id = {}", id);
         return employeeService.getEmployeeById(id);
@@ -93,7 +111,7 @@ public class EmployeeController {
     @PostMapping
     @Operation(summary = "Add new employee", description = "Add new Employee",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to provide the new employee." +
-                    " The `employeeId` field is omitted, because of automatic assignment", content = @Content(
+                    " The `employeeId` field is omitted, because of automatic assignment.", content = @Content(
                     examples = @ExampleObject(description = "Provides an example `employee` request body to save:",
                             value = """
                                       {
@@ -104,7 +122,16 @@ public class EmployeeController {
                                          }
                                     """
                     )
-            )))
+            )), responses = {@ApiResponse(description = "Successfully added", responseCode = "201"),
+            @ApiResponse(description = "Internal Server Error", responseCode = "500",
+                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                            value = """
+                                             {
+                                                  "status": "Internal Server Error",
+                                                  "timestamp": "17/08/2022 02:41:28",
+                                                  "message": "could not execute statement"
+                                              }
+                                    """)))})
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
     }
@@ -112,19 +139,40 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    @Operation(summary = "Update employee", description = "Update employee",   requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to update employee." +
-            " The `employeeId` field is omitted, it is already requested in path", content = @Content(
-            examples = @ExampleObject(description = "Provides an example `employee` request body to update:",
-                    value = """
-                                      {
-                                           "firstName": "James",
-                                           "lastName": "Bond",
-                                           "departmentId": 7,
-                                            "jobTitle": "Agent"
-                                         }
-                                    """
-            )
-    )))
+    @Operation(summary = "Update employee ",
+            description = "Update employee by providing existing `employeeID` and then update in request body",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to update employee." +
+                    " The `employeeId` field is omitted, it is already requested in path",
+                    content = @Content(
+                            examples = @ExampleObject(description = "Provides an example `employee` request body to update:",
+                                    value = """
+                                              {
+                                                   "firstName": "James",
+                                                   "lastName": "Bond",
+                                                   "departmentId": 7,
+                                                    "jobTitle": "Agent"
+                                                 }
+                                            """
+                            )
+                    )), responses = {@ApiResponse(description = "Successfully updated", responseCode = "200"),
+            @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
+                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                            value = """
+                                             {
+                                                  "status": "NOT_FOUND",
+                                                  "timestamp": "17/08/2022 02:41:28",
+                                                  "message": "Employee with ID 1111 not found"
+                                              }
+                                    """))),
+            @ApiResponse(description = "Internal Server Error", responseCode = "500",
+                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                            value = """
+                                             {
+                                                  "status": "Internal Server Error",
+                                                  "timestamp": "17/08/2022 02:41:28",
+                                                  "message": "could not execute statement"
+                                              }
+                                    """)))})
     public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         employeeService.updateEmployee(employee, id);
@@ -138,12 +186,21 @@ public class EmployeeController {
                     @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
                             content = @Content(examples = @ExampleObject(summary = "Example of output:",
                                     value = """
-                                     {
-                                          "status": "NOT_FOUND",
-                                          "timestamp": "17/08/2022 02:41:28",
-                                          "message": "Employee with ID 1111 not found"
-                                      }
-                            """)))})
+                                                     {
+                                                          "status": "NOT_FOUND",
+                                                          "timestamp": "17/08/2022 02:41:28",
+                                                          "message": "Employee with ID 1111 not found"
+                                                      }
+                                            """))),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
+                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
+                                    value = """
+                                                     {
+                                                          "status": "Internal Server Error",
+                                                          "timestamp": "17/08/2022 02:41:28",
+                                                          "message": "could not execute statement"
+                                                      }
+                                            """)))})
     public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
