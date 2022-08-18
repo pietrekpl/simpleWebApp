@@ -38,29 +38,21 @@ public class EmployeeController {
                             [
                               {
                                   "employeeId": 1,
-                                   "firstName": "James",
-                                   "lastName": "Bond",
+                                   "firstName": "Joe",
+                                   "lastName": "Doe",
                                    "departmentId": 7,
-                                    "jobTitle": "Agent"
+                                    "jobTitle": "Teacher"
                                  },
                               {
                                   "employeeId": 2,
-                                  "firstName": "Donald",
-                                  "lastName": "Trump",
+                                  "firstName": "Michael",
+                                  "lastName": "Dowson",
                                   "departmentId": 5,
-                                  "jobTitle": "President"
+                                  "jobTitle": "Engineer"
                               }
                             ]
                             """))),
-                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
-                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                                    value = """
-                                                     {
-                                                          "status": "Internal Server Error",
-                                                          "timestamp": "17/08/2022 02:41:28",
-                                                          "message": "could not execute statement"
-                                                      }
-                                            """)))},
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))},
             parameters = {@Parameter(name = "firstName", description = "Employee first name (Optional)"),
                     @Parameter(name = "lastName", description = "Employee last name (Optional)")}
     )
@@ -77,30 +69,14 @@ public class EmployeeController {
             responses = {@ApiResponse(description = "Success", responseCode = "200", content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
                       {
                           "employeeId": 1,
-                           "firstName": "James",
-                           "lastName": "Bond",
+                           "firstName": "Joe",
+                           "lastName": "Doe",
                            "departmentId": 7,
-                            "jobTitle": "Agent"
+                            "jobTitle": "Teacher"
                          }
                     """))),
-                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
-                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                                    value = """
-                                                     {
-                                                          "status": "NOT_FOUND",
-                                                          "timestamp": "17/08/2022 02:41:28",
-                                                          "message": "Employee with ID 1111 not found"
-                                                      }
-                                            """))),
-                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
-                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                                    value = """
-                                                     {
-                                                          "status": "Internal Server Error",
-                                                          "timestamp": "17/08/2022 02:41:28",
-                                                          "message": "could not execute statement"
-                                                      }
-                                            """)))})
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))})
     public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method getEmployee() takes id = {}", id);
         return employeeService.getEmployeeById(id);
@@ -115,23 +91,15 @@ public class EmployeeController {
                     examples = @ExampleObject(description = "Provides an example `employee` request body to save:",
                             value = """
                                       {
-                                           "firstName": "James",
-                                           "lastName": "Bond",
+                                           "firstName": "Joe",
+                                           "lastName": "Doe",
                                            "departmentId": 7,
-                                            "jobTitle": "Agent"
+                                            "jobTitle": "Teacher"
                                          }
                                     """
                     )
             )), responses = {@ApiResponse(description = "Successfully added", responseCode = "201"),
-            @ApiResponse(description = "Internal Server Error", responseCode = "500",
-                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                            value = """
-                                             {
-                                                  "status": "Internal Server Error",
-                                                  "timestamp": "17/08/2022 02:41:28",
-                                                  "message": "could not execute statement"
-                                              }
-                                    """)))})
+                             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
     }
@@ -155,24 +123,8 @@ public class EmployeeController {
                                             """
                             )
                     )), responses = {@ApiResponse(description = "Successfully updated", responseCode = "200"),
-            @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
-                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                            value = """
-                                             {
-                                                  "status": "NOT_FOUND",
-                                                  "timestamp": "17/08/2022 02:41:28",
-                                                  "message": "Employee with ID 1111 not found"
-                                              }
-                                    """))),
-            @ApiResponse(description = "Internal Server Error", responseCode = "500",
-                    content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                            value = """
-                                             {
-                                                  "status": "Internal Server Error",
-                                                  "timestamp": "17/08/2022 02:41:28",
-                                                  "message": "could not execute statement"
-                                              }
-                                    """)))})
+                                     @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+                                     @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         employeeService.updateEmployee(employee, id);
@@ -183,24 +135,8 @@ public class EmployeeController {
     @Operation(summary = "Delete employee by provided ID",
             description = "Delete single employee by provided ID",
             responses = {@ApiResponse(description = "Successfully deleted", responseCode = "204"),
-                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404",
-                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                                    value = """
-                                                     {
-                                                          "status": "NOT_FOUND",
-                                                          "timestamp": "17/08/2022 02:41:28",
-                                                          "message": "Employee with ID 1111 not found"
-                                                      }
-                                            """))),
-                    @ApiResponse(description = "Internal Server Error", responseCode = "500",
-                            content = @Content(examples = @ExampleObject(summary = "Example of output:",
-                                    value = """
-                                                     {
-                                                          "status": "Internal Server Error",
-                                                          "timestamp": "17/08/2022 02:41:28",
-                                                          "message": "could not execute statement"
-                                                      }
-                                            """)))})
+                         @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+                         @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
