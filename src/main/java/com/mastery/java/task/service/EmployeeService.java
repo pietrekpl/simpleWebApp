@@ -50,7 +50,7 @@ public class EmployeeService {
 
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        List<Employee>filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameStartsWithOrLastNameStartsWith(firstName, lastName);
+        List<Employee>filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
         if ((firstName == null && lastName == null) || filteredEmployeesByFirstNameOrLastName.isEmpty()) {
             return employeeRepository.findAll();
         }

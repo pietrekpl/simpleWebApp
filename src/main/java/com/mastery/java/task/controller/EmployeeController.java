@@ -1,7 +1,7 @@
 package com.mastery.java.task.controller;
 
 
-import com.mastery.java.task.exception.ResourceNotFoundException;
+
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,14 +26,13 @@ import java.util.List;
 @Tag(name = "employees", description = "Add / Get / Update / Delete employee")
 public class EmployeeController {
 
-
     private final EmployeeService employeeService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @Operation(summary = "Returns all employees or filter employees based on firstName or lastName param",
             description = "When no `parameter` is applied or no `firstName`/`lastName` is found, list of all employees is being returned",
-            responses = {@ApiResponse(description = "Success", responseCode = "200",
+            responses = {@ApiResponse(description = "Success response", responseCode = "200",
                     content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
                             [
                               {
@@ -66,18 +65,10 @@ public class EmployeeController {
     @GetMapping("/{id}")
     @Operation(summary = "Get Employee by ID",
             description = "Gets single employee by ID",
-            responses = {@ApiResponse(description = "Success", responseCode = "200", content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
-                      {
-                          "employeeId": 1,
-                           "firstName": "Joe",
-                           "lastName": "Doe",
-                           "departmentId": 7,
-                            "jobTitle": "Teacher"
-                         }
-                    """))),
+            responses = {@ApiResponse(description = "Success response", responseCode = "200", content = @Content(schema = @Schema(implementation = Employee.class))),
                     @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(schema = @Schema(hidden = true))),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))})
-    public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
+    public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1" ) @PathVariable("id") Long id) {
         log.info("Method getEmployee() takes id = {}", id);
         return employeeService.getEmployeeById(id);
     }
@@ -99,7 +90,7 @@ public class EmployeeController {
                                     """
                     )
             )), responses = {@ApiResponse(description = "Successfully added", responseCode = "201"),
-                             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
+            @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void addEmployee(@RequestBody() Employee employee) {
         employeeService.save(employee);
     }
@@ -123,9 +114,9 @@ public class EmployeeController {
                                             """
                             )
                     )), responses = {@ApiResponse(description = "Successfully updated", responseCode = "200"),
-                                     @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
-                                     @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
+            @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+            @ApiResponse(description = "Internal Server Error", responseCode = "500")})
+    public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         employeeService.updateEmployee(employee, id);
     }
@@ -135,9 +126,9 @@ public class EmployeeController {
     @Operation(summary = "Delete employee by provided ID",
             description = "Delete single employee by provided ID",
             responses = {@ApiResponse(description = "Successfully deleted", responseCode = "204"),
-                         @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
-                         @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true) @PathVariable("id") Long id) {
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+                    @ApiResponse(description = "Internal Server Error", responseCode = "500")})
+    public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
     }
