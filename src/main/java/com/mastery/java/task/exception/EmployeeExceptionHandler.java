@@ -20,12 +20,12 @@ public class EmployeeExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Object> handleNoResourceFoundException(ResourceNotFoundException exception) {
-        log.error(exception.getMessage());
+        log.error(exception.getMessage(),exception);
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(), exception.getMessage()));
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGeneralException(Exception exception) {
-        log.error(exception.getMessage());
+        log.error(exception.getMessage(),exception);
         return buildResponseEntity(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now(), exception.getMessage()));
     }
 }

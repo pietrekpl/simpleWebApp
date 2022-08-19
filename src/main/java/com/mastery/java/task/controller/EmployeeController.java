@@ -1,11 +1,11 @@
 package com.mastery.java.task.controller;
 
 
-
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,33 +30,17 @@ public class EmployeeController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    @Operation(summary = "Returns all employees or filter employees based on firstName or lastName param",
+    @Operation(summary = "Returns all employees or filter employees by firstName/lastName",
             description = "When no `parameter` is applied or no `firstName`/`lastName` is found, list of all employees is being returned",
             responses = {@ApiResponse(description = "Success response", responseCode = "200",
-                    content = @Content(examples = @ExampleObject(summary = "Example of output:", value = """
-                            [
-                              {
-                                  "employeeId": 1,
-                                   "firstName": "Joe",
-                                   "lastName": "Doe",
-                                   "departmentId": 7,
-                                    "jobTitle": "Teacher"
-                                 },
-                              {
-                                  "employeeId": 2,
-                                  "firstName": "Michael",
-                                  "lastName": "Dowson",
-                                  "departmentId": 5,
-                                  "jobTitle": "Engineer"
-                              }
-                            ]
-                            """))),
+                    content = @Content(schema = @Schema(implementation = Employee.class))),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))},
             parameters = {@Parameter(name = "firstName", description = "Employee first name (Optional)"),
                     @Parameter(name = "lastName", description = "Employee last name (Optional)")}
     )
     public List<Employee> getFilteredEmployeesOrAllEmployees(@RequestParam(value = "firstName", required = false) String firstName,
                                                              @RequestParam(value = "lastName", required = false) String lastName) {
+        log.info("Method getFilteredEmployeesOrAllEmployees()");
         return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
     }
 
@@ -98,6 +82,7 @@ public class EmployeeController {
             )), responses = {@ApiResponse(description = "Successfully added", responseCode = "201"),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void addEmployee(@RequestBody() Employee employee) {
+        log.info("Method addEmployee() takes employee = {}", employee);
         employeeService.save(employee);
     }
 
@@ -128,7 +113,8 @@ public class EmployeeController {
                     }
                                   """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public Employee updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
+    public Employee updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1")
+    @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         return employeeService.updateEmployee(employee, id);
     }
@@ -150,6 +136,7 @@ public class EmployeeController {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
     }
+
 
 }
 

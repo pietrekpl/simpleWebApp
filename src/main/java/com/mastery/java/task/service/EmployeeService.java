@@ -33,8 +33,6 @@ public class EmployeeService {
         boolean isExistingEmployee = employeeRepository.existsById(id);
         if (isExistingEmployee) {
             employeeRepository.deleteById(id);
-        } else {
-            throw new ResourceNotFoundException("Employee with ID " + id + " not found");
         }
     }
 
@@ -51,7 +49,7 @@ public class EmployeeService {
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
         List<Employee> filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
-        if ((firstName == null && lastName == null) || filteredEmployeesByFirstNameOrLastName.isEmpty()) {
+        if ((firstName == null && lastName == null) ) {
             return employeeRepository.findAll();
         }
         return filteredEmployeesByFirstNameOrLastName;
