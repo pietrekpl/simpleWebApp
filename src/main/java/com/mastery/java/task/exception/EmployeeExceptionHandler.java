@@ -1,7 +1,6 @@
 package com.mastery.java.task.exception;
 
 
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ public class EmployeeExceptionHandler {
         log.error(exception.getMessage());
         return buildResponseEntity(new ErrorResponse(HttpStatus.NOT_FOUND, LocalDateTime.now(), exception.getMessage()));
     }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGeneralException(Exception exception) {
         log.error(exception.getMessage());

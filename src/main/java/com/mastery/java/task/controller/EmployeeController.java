@@ -66,9 +66,15 @@ public class EmployeeController {
     @Operation(summary = "Get Employee by ID",
             description = "Gets single employee by ID",
             responses = {@ApiResponse(description = "Success response", responseCode = "200", content = @Content(schema = @Schema(implementation = Employee.class))),
-                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(examples = {@ExampleObject("""
+                                            {
+                                "status": "NOT_FOUND",
+                                "timestamp": "01/08/2022 09:00:00",
+                                "message": "Employee with ID 444 not found"
+                            }
+                                          """)})),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))})
-    public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1" ) @PathVariable("id") Long id) {
+    public Employee getEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method getEmployee() takes id = {}", id);
         return employeeService.getEmployeeById(id);
     }
@@ -114,11 +120,17 @@ public class EmployeeController {
                                             """
                             )
                     )), responses = {@ApiResponse(description = "Successfully updated", responseCode = "200"),
-            @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+            @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(examples = {@ExampleObject("""
+                                    {
+                        "status": "NOT_FOUND",
+                        "timestamp": "01/08/2022 09:00:00",
+                        "message": "Employee with ID 444 not found"
+                    }
+                                  """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public void updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
+    public Employee updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
-        employeeService.updateEmployee(employee, id);
+        return employeeService.updateEmployee(employee, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -126,7 +138,13 @@ public class EmployeeController {
     @Operation(summary = "Delete employee by provided ID",
             description = "Delete single employee by provided ID",
             responses = {@ApiResponse(description = "Successfully deleted", responseCode = "204"),
-                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404"),
+                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(examples = {@ExampleObject("""
+                                            {
+                                "status": "NOT_FOUND",
+                                "timestamp": "01/08/2022 09:00:00",
+                                "message": "Employee with ID 444 not found"
+                            }
+                                          """)})),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);

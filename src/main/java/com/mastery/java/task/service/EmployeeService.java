@@ -38,19 +38,19 @@ public class EmployeeService {
         }
     }
 
-    public void updateEmployee(Employee employee, Long id) {
+    public Employee updateEmployee(Employee employee, Long id) {
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());
         existingEmployee.setDepartmentId(employee.getDepartmentId());
-        employeeRepository.save(existingEmployee);
+        return employeeRepository.save(existingEmployee);
 
     }
 
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        List<Employee>filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
+        List<Employee> filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
         if ((firstName == null && lastName == null) || filteredEmployeesByFirstNameOrLastName.isEmpty()) {
             return employeeRepository.findAll();
         }
