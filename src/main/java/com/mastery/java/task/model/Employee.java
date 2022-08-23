@@ -36,7 +36,7 @@ public class Employee {
     private String jobTitle;
 
     @Column(name = "date_of_birth")
-    @DateTimeFormat( iso = DateTimeFormat.ISO.DATE)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd.MM.yyyy")
     @AgeValidation
     private LocalDate dateOfBirth;

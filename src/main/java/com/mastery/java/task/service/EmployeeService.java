@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,12 +52,7 @@ public class EmployeeService {
 
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        List<Employee> filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
-        if ((firstName == null && lastName == null)) {
-            return employeeRepository.findAll();
-        }
-        return filteredEmployeesByFirstNameOrLastName;
+        List<Employee> filteredEmployees = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
+        return  (firstName == null && lastName == null) ? employeeRepository.findAll() : filteredEmployees;
     }
-
-
 }
