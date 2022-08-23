@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -28,12 +29,12 @@ public class EmployeeService {
         employeeRepository.save(employee);
     }
 
-    // correct method
-    public void deleteEmployeeById(Long id) {
-        boolean isExistingEmployee = employeeRepository.existsById(id);
-        if (isExistingEmployee) {
+
+    public Optional<Employee> deleteEmployeeById(Long id) {
+        if (employeeRepository.findById(id).isPresent()) {
             employeeRepository.deleteById(id);
         }
+        return Optional.empty();
     }
 
     public Employee updateEmployee(Employee employee, Long id) {
@@ -42,6 +43,8 @@ public class EmployeeService {
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());
         existingEmployee.setDepartmentId(employee.getDepartmentId());
+        employee.setDateOfBirth(employee.getDateOfBirth());
+        employee.setGender(employee.getGender());
         return employeeRepository.save(existingEmployee);
 
     }
@@ -49,7 +52,7 @@ public class EmployeeService {
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
         List<Employee> filteredEmployeesByFirstNameOrLastName = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
-        if ((firstName == null && lastName == null) ) {
+        if ((firstName == null && lastName == null)) {
             return employeeRepository.findAll();
         }
         return filteredEmployeesByFirstNameOrLastName;

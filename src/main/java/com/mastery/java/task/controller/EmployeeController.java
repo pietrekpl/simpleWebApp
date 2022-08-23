@@ -5,7 +5,6 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -68,20 +68,22 @@ public class EmployeeController {
     @PostMapping
     @Operation(summary = "Add new employee", description = "Add new Employee",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to provide the new employee." +
-                    " The `employeeId` field is omitted, because of automatic assignment.", content = @Content(
+                    " The `employeeId` field is omitted, because of automatic assignment. `dateOfBirth` is in format: dd.MM.yyyy separated by `.` ,where dd stands for day, mm for month and yyyy for year." +
+                    " Be aware only employees having 18+ years will be successfully added", content = @Content(
                     examples = @ExampleObject(description = "Provides an example `employee` request body to save:",
                             value = """
                                       {
                                            "firstName": "Joe",
                                            "lastName": "Doe",
                                            "departmentId": 7,
-                                            "jobTitle": "Teacher"
+                                            "jobTitle": "Teacher",
+                                            "dateOfBirth": "01.01.2000"
                                          }
                                     """
                     )
             )), responses = {@ApiResponse(description = "Successfully added", responseCode = "201"),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public void addEmployee(@RequestBody() Employee employee) {
+    public void addEmployee(@Valid @RequestBody() Employee employee) {
         log.info("Method addEmployee() takes employee = {}", employee);
         employeeService.save(employee);
     }
@@ -92,7 +94,9 @@ public class EmployeeController {
     @Operation(summary = "Update employee ",
             description = "Update employee by providing existing `employeeID` and then update in request body",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "The request body is expected to update employee." +
-                    " The `employeeId` field is omitted, it is already requested in path",
+                    " The `employeeId` field is omitted, it is already requested in path. " +
+                    "`dateOfBirth` is in format: dd.MM.yyyy where dd stands for day, mm for month and yyyy for year separated by `.`" +
+                    " Please be aware update won't be effective, if age of employee is less than 18",
                     content = @Content(
                             examples = @ExampleObject(description = "Provides an example `employee` request body to update:",
                                     value = """
@@ -100,7 +104,8 @@ public class EmployeeController {
                                                    "firstName": "James",
                                                    "lastName": "Bond",
                                                    "departmentId": 7,
-                                                    "jobTitle": "Agent"
+                                                    "jobTitle": "Agent",
+                                                    "dateOfBirth": "01.01.2000"
                                                  }
                                             """
                             )
@@ -113,8 +118,8 @@ public class EmployeeController {
                     }
                                   """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public Employee updateEmployee(@RequestBody Employee employee, @Parameter(name = "id", description = "Employee ID", required = true, example = "1")
-    @PathVariable("id") Long id) {
+    public Employee updateEmployee(@Valid @RequestBody Employee employee,
+                                   @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
         return employeeService.updateEmployee(employee, id);
     }
@@ -124,20 +129,11 @@ public class EmployeeController {
     @Operation(summary = "Delete employee by provided ID",
             description = "Delete single employee by provided ID",
             responses = {@ApiResponse(description = "Successfully deleted", responseCode = "204"),
-                    @ApiResponse(description = "Employee with requested ID not found", responseCode = "404", content = @Content(examples = {@ExampleObject("""
-                                            {
-                                "status": "NOT_FOUND",
-                                "timestamp": "01/08/2022 09:00:00",
-                                "message": "Employee with ID 444 not found"
-                            }
-                                          """)})),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void deleteEmployee(@Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
     }
-
-
 }
 
 

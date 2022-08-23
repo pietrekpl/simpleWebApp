@@ -1,6 +1,7 @@
 package com.mastery.java.task.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mastery.java.task.constraints.AgeValidation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,9 +38,12 @@ public class Employee {
     @Column(name = "date_of_birth")
     @DateTimeFormat( iso = DateTimeFormat.ISO.DATE)
     @JsonFormat(pattern = "dd.MM.yyyy")
+    @AgeValidation
     private LocalDate dateOfBirth;
 
-    static private Gender gender;
+    @Column(name = "gender")
+    @Enumerated(value = EnumType.STRING)
+    private Gender gender;
 
 
 }

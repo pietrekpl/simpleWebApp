@@ -1,6 +1,18 @@
 package com.mastery.java.task.model;
+import lombok.*;
 
+@Getter
+@ToString
+@RequiredArgsConstructor
 public enum Gender {
-    MALE,
-    FEMALE
+
+    MALE("male"),
+    FEMALE("female");
+
+    private final String text;
+
+
 }
+
+
+
