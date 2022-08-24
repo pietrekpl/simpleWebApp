@@ -4,8 +4,6 @@ package com.mastery.java.task.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import javax.validation.constraintvalidation.SupportedValidationTarget;
-import javax.validation.constraintvalidation.ValidationTarget;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -16,7 +14,7 @@ public class BirthDateValidator implements ConstraintValidator<AgeValidation, Lo
 
     @Override
     public boolean isValid(LocalDate dateOfBirth, ConstraintValidatorContext constraintValidatorContext) {
-        int yearsDifference = Period.between(dateOfBirth, LocalDate.now()).getYears();
-        return yearsDifference >= 18;
+       return (Period.between(dateOfBirth, LocalDate.now()).getYears()) >= 18;
+
     }
 }
