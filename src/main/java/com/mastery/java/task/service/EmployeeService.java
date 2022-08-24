@@ -8,9 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -31,11 +30,11 @@ public class EmployeeService {
     }
 
 
-    public Optional<Employee> deleteEmployeeById(Long id) {
+    public void deleteEmployeeById(Long id) {
         if (employeeRepository.findById(id).isPresent()) {
             employeeRepository.deleteById(id);
         }
-        return Optional.empty();
+
     }
 
     public Employee updateEmployee(Employee employee, Long id) {
@@ -44,15 +43,15 @@ public class EmployeeService {
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());
         existingEmployee.setDepartmentId(employee.getDepartmentId());
-        employee.setDateOfBirth(employee.getDateOfBirth());
-        employee.setGender(employee.getGender());
+        existingEmployee.setDateOfBirth(employee.getDateOfBirth());
+        existingEmployee.setGender(employee.getGender());
         return employeeRepository.save(existingEmployee);
 
     }
 
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
-        List<Employee> filteredEmployees = employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
-        return  (firstName == null && lastName == null) ? employeeRepository.findAll() : filteredEmployees;
+       return employeeRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
+
     }
 }

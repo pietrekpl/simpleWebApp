@@ -39,8 +39,8 @@ public class EmployeeController {
             parameters = {@Parameter(name = "firstName", description = "Employee first name (Optional)"),
                     @Parameter(name = "lastName", description = "Employee last name (Optional)")}
     )
-    public List<Employee> getFilteredEmployeesOrAllEmployees(@RequestParam(value = "firstName", required = false) String firstName,
-                                                             @RequestParam(value = "lastName", required = false) String lastName) {
+    public List<Employee> getFilteredEmployeesOrAllEmployees(@RequestParam(value = "firstName", required = false, defaultValue = "") String firstName,
+                                                             @RequestParam(value = "lastName", required = false, defaultValue = "") String lastName) {
         log.info("Method getFilteredEmployeesOrAllEmployees()");
         return employeeService.filterEmployeesByFirstNameOrLastName(firstName, lastName);
     }

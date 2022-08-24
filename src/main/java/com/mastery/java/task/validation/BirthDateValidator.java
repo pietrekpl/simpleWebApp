@@ -1,4 +1,6 @@
-package com.mastery.java.task.constraints;
+package com.mastery.java.task.validation;
+
+
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -9,7 +11,7 @@ import java.time.Period;
 
 
 
-@SupportedValidationTarget(ValidationTarget.ANNOTATED_ELEMENT)
+
 public class BirthDateValidator implements ConstraintValidator<AgeValidation, LocalDate> {
 
     @Override
