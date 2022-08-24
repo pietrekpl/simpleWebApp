@@ -44,6 +44,7 @@ class BirthDateValidatorTest {
         // when
         boolean isValidAge = birthDateValidator.isValid(dateOfBirth, constraintValidatorContext);
         // then
+        log.info("Date {}", dateOfBirth);
         Assertions.assertFalse(isValidAge);
     }
 

@@ -34,12 +34,12 @@ public class EmployeeExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleMethodNotValidArgumentException(MethodArgumentNotValidException exception) {
-        final List<String> errors = new ArrayList<>();
+        final List<String> errorList = new ArrayList<>();
         for (final FieldError error : exception.getBindingResult().getFieldErrors()) {
-            errors.add(error.getField() + " : " + error.getDefaultMessage());
+            errorList.add(error.getField() + " : " + error.getDefaultMessage());
         }
         log.error(exception.getMessage(), exception);
-        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, LocalDateTime.now(), errors.toString()));
+        return buildResponseEntity(new ErrorResponse(HttpStatus.BAD_REQUEST, LocalDateTime.now(), errorList.toString()));
     }
 
     @ExceptionHandler(Exception.class)

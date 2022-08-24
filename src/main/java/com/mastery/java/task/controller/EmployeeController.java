@@ -31,7 +31,8 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     @Operation(summary = "Returns all employees or filter employees by firstName/lastName",
-            description = "When no `parameter` is applied or no `firstName`/`lastName` is found, list of all employees is being returned",
+            description = "When no `parameter` is applied list of all employees is being returned," +
+                    " if no `firstName`/`lastName` is found empty list of employees is being returned",
             responses = {@ApiResponse(description = "Success response", responseCode = "200",
                     content = @Content(schema = @Schema(implementation = Employee.class))),
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content(schema = @Schema(hidden = true)))},
