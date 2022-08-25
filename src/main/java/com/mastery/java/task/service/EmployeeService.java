@@ -24,7 +24,6 @@ public class EmployeeService {
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
     }
-
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
@@ -48,10 +47,7 @@ public class EmployeeService {
         return employeeRepository.save(existingEmployee);
 
     }
-
-
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
        return employeeRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
-
     }
 }
