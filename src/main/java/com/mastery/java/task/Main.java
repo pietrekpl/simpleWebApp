@@ -16,6 +16,7 @@ import org.springframework.jms.annotation.EnableJms;
         contact = @Contact(name = "p.ludynia@godeltech.com", email = "p.ludynia@godeltech.com"),
         license = @License(name = "License", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
         version = "1.0"))
+
 public class Main {
 
     public static void main(String[] args) {
