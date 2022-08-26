@@ -23,10 +23,10 @@ public class JmsProducer {
 
     public void sendMessage(Employee employee) {
         try {
-            log.info("Attempting Send message to Topic: " + queue);
             jmsTemplate.convertAndSend(queue, employee);
+            log.info("Message incoming to queue: {}", employee);
         } catch (Exception e) {
-            log.error("Exception occurred ", e);
+            log.error("Exception occurred: ", e);
         }
     }
 

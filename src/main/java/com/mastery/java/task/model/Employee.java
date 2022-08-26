@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -21,7 +22,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @SequenceGenerator(name = "seq")
@@ -43,7 +47,7 @@ public class Employee {
 
     @Column(name = "date_of_birth")
     @JsonFormat(pattern = "dd.MM.yyyy")
-    @JsonSerialize( using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @AgeValidation
     private LocalDate dateOfBirth;

@@ -133,7 +133,7 @@ public class EmployeeController {
                       "timestamp": "23/08/2022 01:02:21",
                       "message": "[dateOfBirth : Only employees with age 18 and above are legible to store]"
                     }
-                                  """)})) ,
+                                  """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public Employee updateEmployee(@Valid @RequestBody Employee employee,
                                    @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
