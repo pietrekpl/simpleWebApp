@@ -1,7 +1,6 @@
 package com.mastery.java.task.jms;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 import com.mastery.java.task.model.Employee;
@@ -13,7 +12,7 @@ import javax.jms.*;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class JmsConsumer {
+public class JmsEmployeeConsumer {
 
 
     private final JmsTemplate jmsTemplate;
@@ -26,7 +25,7 @@ public class JmsConsumer {
             if (message != null) {
                 employee = (Employee) messageConverter.fromMessage(message);
             }
-            log.info("Taken message from queue:{}->{} ", queueName, employee);
+            log.info("Taken message from queue:{}->{}", queueName, employee);
             return employee;
 
         } catch (JMSException exception) {

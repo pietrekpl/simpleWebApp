@@ -135,10 +135,10 @@ public class EmployeeController {
                     }
                                   """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
-    public Employee updateEmployee(@Valid @RequestBody Employee employee,
+    public void updateEmployee(@Valid @RequestBody Employee employee,
                                    @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
-        return employeeService.updateEmployee(employee, id);
+         employeeService.updateEmployee(employee, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
