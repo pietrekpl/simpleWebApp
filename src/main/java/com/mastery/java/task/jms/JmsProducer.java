@@ -15,16 +15,12 @@ public class JmsProducer {
 
     private final JmsTemplate jmsTemplate;
 
-    @Value("${spring.activemq.queue}")
-    private String queueName;
-
-
-    public void sendMessage(Employee employee) {
+    public void sendMessage(Employee employee, String queueName) {
         try {
             jmsTemplate.convertAndSend(queueName, employee);
-            log.info("Message coming to queue: {}", employee);
-        } catch (Exception e) {
-            log.error("Exception occurred: ", e);
+            log.info("Message coming to queue:{}->{}", queueName, employee);
+        } catch (Exception exception) {
+            log.error("Exception occurred: ", exception);
         }
     }
 

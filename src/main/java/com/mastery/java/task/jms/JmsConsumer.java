@@ -1,6 +1,7 @@
 package com.mastery.java.task.jms;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 import com.mastery.java.task.model.Employee;
@@ -18,21 +19,19 @@ public class JmsConsumer {
     private final JmsTemplate jmsTemplate;
     private final MessageConverter messageConverter;
 
-
-    // @JmsListener(destination = "testQueue")
-    public Employee receiveMessage() {
+    public Employee receiveMessage(String queueName) {
         try {
-            Message message = jmsTemplate.receive();
+            Message message = jmsTemplate.receive(queueName);
             Employee employee = null;
-            if( message != null){
-                 employee = (Employee) messageConverter.fromMessage(message);
+            if (message != null) {
+                employee = (Employee) messageConverter.fromMessage(message);
             }
-            log.info("Taken message from queue:  {} ", employee);
+            log.info("Taken message from queue:{}->{} ", queueName, employee);
             return employee;
 
-        } catch (JMSException e) {
-            log.error("Error occurred: ", e);
-            throw new RuntimeException(e);
+        } catch (JMSException exception) {
+            log.error("Error occurred: ", exception);
+            throw new RuntimeException(exception);
         }
     }
 
