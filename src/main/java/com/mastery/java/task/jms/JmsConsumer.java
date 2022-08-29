@@ -1,12 +1,10 @@
 package com.mastery.java.task.jms;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 import com.mastery.java.task.model.Employee;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 import javax.jms.*;
@@ -25,8 +23,11 @@ public class JmsConsumer {
     public Employee receiveMessage() {
         try {
             Message message = jmsTemplate.receive();
-            Employee employee = (Employee) messageConverter.fromMessage(message);
-            log.info("Taken employee:  {} ", employee);
+            Employee employee = null;
+            if( message != null){
+                 employee = (Employee) messageConverter.fromMessage(message);
+            }
+            log.info("Taken message from queue:  {} ", employee);
             return employee;
 
         } catch (JMSException e) {

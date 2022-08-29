@@ -1,7 +1,6 @@
 package com.mastery.java.task.jms;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +18,10 @@ public class JmsConfig {
     @Value("${spring.activemq.broker-url}")
     private String brokerUrl;
 
+    @Value("${spring.activemq.queue}")
+    private String queueName;
+
+
     @Bean
     public ConnectionFactory connectionFactory() {
         ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
@@ -31,7 +34,7 @@ public class JmsConfig {
     public JmsTemplate jmsTemplate() {
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory());
-        jmsTemplate.setDefaultDestinationName("testQueue");
+        jmsTemplate.setDefaultDestinationName(queueName);
         return jmsTemplate;
     }
 
