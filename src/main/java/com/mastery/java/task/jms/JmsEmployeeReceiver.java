@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.converter.MessageConverter;
 import com.mastery.java.task.model.Employee;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +13,11 @@ import javax.jms.*;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class JmsEmployeeConsumer {
-
+public class JmsEmployeeReceiver {
 
     private final JmsTemplate jmsTemplate;
     private final MessageConverter messageConverter;
+
 
     public Employee receiveMessage(String queueName) {
         try {
@@ -33,6 +34,9 @@ public class JmsEmployeeConsumer {
             throw new RuntimeException(exception);
         }
     }
+
+
+
 
 
 }

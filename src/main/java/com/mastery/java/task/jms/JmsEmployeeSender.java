@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class JmsEmployeeProducer {
+public class JmsEmployeeSender {
 
     private final JmsTemplate jmsTemplate;
 

@@ -1,8 +1,9 @@
 package com.mastery.java.task.service;
 
 import com.mastery.java.task.exception.ResourceNotFoundException;
-import com.mastery.java.task.jms.JmsEmployeeConsumer;
-import com.mastery.java.task.jms.JmsEmployeeProducer;
+import com.mastery.java.task.jms.JmsEmployeeReceiver;
+import com.mastery.java.task.jms.JmsEmployeeSender;
+import com.mastery.java.task.jms.MessageListener;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,16 +24,18 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    private final JmsEmployeeConsumer jmsEmployeeConsumer;
+    private final JmsEmployeeReceiver jmsEmployeeReceiver;
 
-    private final JmsEmployeeProducer jmsEmployeeProducer;
+    private final JmsEmployeeSender jmsEmployeeSender;
+
 
 
     @Value("${spring.activemq.queue}")
-    private String saveQueue;
+    private  String saveQueue;
 
     @Value("${spring.activemq.updateQueue}")
-    private String updateQueue;
+    private  String updateQueue;
+
 
 
 
@@ -41,8 +44,8 @@ public class EmployeeService {
     }
 
     public void save(Employee employee) {
-        jmsEmployeeProducer.sendMessage(employee, saveQueue);
-        Employee employeeTakenFromQueue = jmsEmployeeConsumer.receiveMessage(saveQueue);
+        jmsEmployeeSender.sendMessage(employee, saveQueue);
+        Employee employeeTakenFromQueue = jmsEmployeeReceiver.receiveMessage(saveQueue);
         employeeRepository.save(employeeTakenFromQueue);
     }
 
@@ -55,8 +58,8 @@ public class EmployeeService {
 
     public void updateEmployee(Employee employee, Long id) {
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
-        jmsEmployeeProducer.sendMessage(existingEmployee, updateQueue);
-        Employee employeeFromQueue  =  jmsEmployeeConsumer.receiveMessage(updateQueue);
+        jmsEmployeeSender.sendMessage(existingEmployee, updateQueue);
+        Employee employeeFromQueue  =  jmsEmployeeReceiver.receiveMessage(updateQueue);
         if (employeeFromQueue != null) {
             employeeFromQueue.setFirstName(employee.getFirstName());
             employeeFromQueue.setLastName(employee.getLastName());
