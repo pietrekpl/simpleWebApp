@@ -59,9 +59,8 @@ public class JmsConfig {
         DefaultJmsListenerContainerFactory containerFactory = new DefaultJmsListenerContainerFactory();
         containerFactory.setConnectionFactory(connectionFactory());
         containerFactory.setMessageConverter(messageConverter());
+        containerFactory.setReplyPubSubDomain(false);
         containerFactory.setClientId("1234");
         return containerFactory;
     }
-
-
 }
