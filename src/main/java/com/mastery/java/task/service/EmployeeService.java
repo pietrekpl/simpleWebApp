@@ -6,12 +6,12 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.activemq.command.ActiveMQObjectMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 
-import javax.jms.JMSException;
+
 import java.util.List;
 
 
@@ -24,6 +24,7 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     private final JmsEmployeeSender jmsEmployeeSender;
+
 
     @Value("${spring.activemq.queue}")
     private String saveQueue;
@@ -58,4 +59,12 @@ public class EmployeeService {
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
         return employeeRepository.findByFirstNameContainingAndLastNameContaining(firstName, lastName);
     }
+
+    @JmsListener(destination = "${spring.activemq.queue}")
+    public void handleEmployeeMessage( Employee employee ) {
+            employeeRepository.save(employee);
+            log.info("Message From Listener: {}", employee);
+
+    }
+
 }
