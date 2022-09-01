@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class EmployeeService  {
+public class EmployeeService {
 
 
     private final EmployeeRepository employeeRepository;
@@ -29,46 +29,30 @@ public class EmployeeService  {
     private String saveQueue;
 
 
-
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
     }
 
-    public void save(Employee employee)  {
-        ActiveMQObjectMessage message = jmsEmployeeSender.sendMessage(employee, saveQueue);
-        Employee employeeFromQueue;
-        try {
-            employeeFromQueue = (Employee) message.getObject();
-        } catch (JMSException e) {
-            throw new RuntimeException(e);
-        }
-        employeeRepository.save(employeeFromQueue);
-
+    public void save(Employee employee) {
+        jmsEmployeeSender.sendMessage(employee, saveQueue);
     }
 
     public void deleteEmployeeById(Long id) {
         if (employeeRepository.findById(id).isPresent()) {
             employeeRepository.deleteById(id);
         }
-
     }
 
     public void updateEmployee(Employee employee, Long id) {
         Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
-            existingEmployee.setFirstName(employee.getFirstName());
-            existingEmployee.setLastName(employee.getLastName());
-            existingEmployee.setJobTitle(employee.getJobTitle());
-            existingEmployee.setDepartmentId(employee.getDepartmentId());
-            existingEmployee.setDateOfBirth(employee.getDateOfBirth());
-            existingEmployee.setGender(employee.getGender());
-          ActiveMQObjectMessage updateMessage = jmsEmployeeSender.sendMessage(existingEmployee, saveQueue);
-        try {
-            Employee employeeAfterUpdate = (Employee) updateMessage.getObject();
-            employeeRepository.save(employeeAfterUpdate);
-        } catch (JMSException e) {
-            throw new RuntimeException(e);
-        }
+        existingEmployee.setFirstName(employee.getFirstName());
+        existingEmployee.setLastName(employee.getLastName());
+        existingEmployee.setJobTitle(employee.getJobTitle());
+        existingEmployee.setDepartmentId(employee.getDepartmentId());
+        existingEmployee.setDateOfBirth(employee.getDateOfBirth());
+        existingEmployee.setGender(employee.getGender());
+        jmsEmployeeSender.sendMessage(existingEmployee, saveQueue);
     }
 
     public List<Employee> filterEmployeesByFirstNameOrLastName(String firstName, String lastName) {
