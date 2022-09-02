@@ -7,9 +7,9 @@
 
 
 
-<changeSet id="3" author="p.ludynia">
+<changeSet id="1" author="p.ludynia">
     <createTable tableName="employee">
-        <column name="employee_id" type="bigint">
+        <column name="employee_id" type="bigint" autoIncrement="true" incrementBy="1">
             <constraints primaryKey="true" />
         </column>
         <column name="first_name" type="varchar(255)">
