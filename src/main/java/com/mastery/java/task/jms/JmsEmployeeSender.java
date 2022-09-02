@@ -18,13 +18,8 @@ public class JmsEmployeeSender {
     private final JmsTemplate jmsTemplate;
 
     public void sendMessage(Employee employee, String queueName) {
-        try {
             jmsTemplate.convertAndSend(queueName, employee);
             log.info("Message coming to queue:{}->{}", queueName, employee);
-        } catch (Exception exception) {
-            log.error("Exception occurred: ", exception);
-        }
     }
-
 }
 
