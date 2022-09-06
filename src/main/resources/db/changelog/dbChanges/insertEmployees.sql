@@ -14,3 +14,4 @@ INSERT INTO employee (first_name, last_name, job_title, date_of_birth, gender, d
 --changeset p.ludynia:6
 INSERT INTO employee (first_name, last_name, job_title, date_of_birth, gender, department_id)
             VALUES('Peter','Parker','Spiderman','2000-05-18','male','5');
+
