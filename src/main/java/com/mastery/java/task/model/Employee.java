@@ -52,6 +52,7 @@ public class Employee implements Serializable {
     @AgeValidation
     private LocalDate dateOfBirth;
 
+
     @Column(name = "gender")
     @Enumerated(value = EnumType.STRING)
     private Gender gender;

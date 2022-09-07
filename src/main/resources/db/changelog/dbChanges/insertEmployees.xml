@@ -12,7 +12,7 @@
           <column name="department_id" value="7"/>
           <column name="job_title" value="Agent"/>
           <column name="date_of_birth" value="1960-05-18"/>
-          <column name="gender" value="male"/>
+          <column name="gender" value="MALE"/>
       </insert>
   </changeSet>
     <changeSet id="5" author="p.ludynia">
@@ -22,7 +22,7 @@
             <column name="department_id" value="4"/>
             <column name="job_title" value="Teacher"/>
             <column name="date_of_birth" value="1980-07-18"/>
-            <column name="gender" value="male"/>
+            <column name="gender" value="MALE"/>
         </insert>
     </changeSet>
     <changeSet id="6" author="p.ludynia">
@@ -32,7 +32,7 @@
             <column name="department_id" value="5"/>
             <column name="job_title" value="Singer"/>
             <column name="date_of_birth" value="1984-02-11"/>
-            <column name="gender" value="male"/>
+            <column name="gender" value="MALE"/>
         </insert>
     </changeSet>
     <changeSet id="7" author="p.ludynia">
@@ -42,7 +42,7 @@
             <column name="department_id" value="3"/>
             <column name="job_title" value="Electrician"/>
             <column name="date_of_birth" value="1960-04-17"/>
-            <column name="gender" value="male"/>
+            <column name="gender" value="MALE"/>
         </insert>
     </changeSet>
     <changeSet id="8" author="p.ludynia">
@@ -52,7 +52,7 @@
             <column name="department_id" value="3"/>
             <column name="job_title" value="FactoryWorker"/>
             <column name="date_of_birth" value="1990-03-08"/>
-            <column name="gender" value="male"/>
+            <column name="gender" value="MALE"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
