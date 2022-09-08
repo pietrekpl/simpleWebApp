@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    build: ./simpleWebApp
+    container_name: simpleWebApp
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - activemq
+      - db
+  activemq:
+    container_name: activemq
+    image: rmohr/activemq:5.15.9-alpine
+    restart: always
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+      - "5672:5672"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Winogrona.2022
+
+
