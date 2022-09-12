@@ -2,6 +2,7 @@ version: '3'
 
 services:
   app:
+    container_name: application
     image: pludynia/simple-web-app:v1
     ports:
       - "8080:8080"
@@ -9,27 +10,35 @@ services:
     depends_on:
       - activemq
       - db
-      - liquibase
-  liquibase:
-    image: liquibase/liquibase:4.7.0
-    volumes:
-      - ./liquibase:/liquibase/changelog
-    command: liquibase --url="jdbc:postgresql://localhost:5432/employeedb" --changeLogFile=./db/changelog/dbchangelog.xml --username=postgres --password=Winogrona.2022 update
-    depends_on:
-      - db
   activemq:
+    container_name: activemq
     image: rmohr/activemq:5.15.9-alpine
     restart: always
     ports:
       - "61616:61616"
       - "8161:8161"
       - "5672:5672"
+  liquibase:
+    image: kilna/liquibase-postgres
+    container_name: liquibase
+    command: liquibase update
+    environment:
+      - LIQUIBASE_HOST=192.168.192.2
+      - LIQUIBASE_PORT=5432
+      - LIQUIBASE_DATABASE=employeedb
+      - LIQUIBASE_USERNAME=postgres
+      - LIQUIBASE_PASSWORD=Winogrona.2022
+      - LIQUIBASE_CHANGELOG=dbchangelog.xml
+      - LIQUIBASE_URL=jdbc:postgresql://192.168.192.2:5432/employeedb
   db:
+    container_name: postgres
     image: postgres:bullseye
     restart: always
     environment:
-      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Winogrona.2022
+      - POSTGRES_USER=postgres
       - POSTGRES_DB=employeedb
     ports:
-      - '5432:5432'
+      - "5432:5432"
+
+
