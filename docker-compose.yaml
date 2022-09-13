@@ -9,7 +9,7 @@ services:
     restart: always
     depends_on:
       - activemq
-      - db
+      - liquibase
   activemq:
     container_name: activemq
     image: rmohr/activemq:5.15.9-alpine
@@ -23,16 +23,17 @@ services:
     container_name: liquibase
     command: liquibase update
     environment:
-      - LIQUIBASE_HOST=192.168.192.2
-      - LIQUIBASE_PORT=5432
+      - LIQUIBASE_HOST=db
       - LIQUIBASE_DATABASE=employeedb
       - LIQUIBASE_USERNAME=postgres
       - LIQUIBASE_PASSWORD=Winogrona.2022
-      - LIQUIBASE_CHANGELOG=dbchangelog.xml
-      - LIQUIBASE_URL=jdbc:postgresql://192.168.192.2:5432/employeedb
+      - LIQUIBASE_CHANGELOG=C:\Users\p.ludynia\IdeaProjects\simpleWebApp\src\main\resources\db\changelog
+      - LIQUIBASE_URL=jdbc:postgresql://db:5432/employeedb
+    depends_on:
+      - db
   db:
     container_name: postgres
-    image: postgres:bullseye
+    image: postgres:10.22-alpine
     restart: always
     environment:
       - POSTGRES_PASSWORD=Winogrona.2022
