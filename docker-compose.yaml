@@ -2,27 +2,29 @@ version: '3.9'
 
 services:
   app:
-    container_name: app
+    container_name: application
     image: pludynia/simple-web-app:v3
-    ports:
-      - "8080:8080"
+    restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employeedb
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=Winogrona.2022
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
       - spring.activemq.broker-url=tcp://activemq:61616
-    restart: always
+    ports:
+      - "8080:8080"
+
   activemq:
-    container_name: activemq
+    container_name: active
     image: rmohr/activemq:5.15.9-alpine
     restart: always
     ports:
       - "61616:61616"
       - "8161:8161"
+
   liquibase:
-    image: kilna/liquibase-postgres
     container_name: liquibase
+    image: kilna/liquibase-postgres
     command: liquibase update
     environment:
       - LIQUIBASE_HOST=postgres
@@ -33,6 +35,7 @@ services:
       - LIQUIBASE_URL=jdbc:postgresql://postgres:5432/employeedb
     depends_on:
       - postgres
+
   postgres:
     container_name: postgres
     image: postgres:10.22-alpine
