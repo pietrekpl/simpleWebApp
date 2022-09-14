@@ -7,7 +7,7 @@
     <changeSet id="1" author="p.ludynia">
         <comment>Create employee schema</comment>
         <createTable tableName="employee">
-            <column name="employee_id" type="bigint" autoIncrement="true" incrementBy="1">
+            <column name="employee_id" type="serial" autoIncrement="true" incrementBy="1">
                 <constraints primaryKey="true"/>
             </column>
             <column name="first_name" type="varchar(255)">
