@@ -3,7 +3,7 @@ version: '3.9'
 services:
   app:
     container_name: app
-    image: pludynia/simple-web-app:v3
+    image: pludynia/simple-web-app:v4
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employeedb
