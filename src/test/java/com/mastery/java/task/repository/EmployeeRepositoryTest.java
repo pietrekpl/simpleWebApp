@@ -71,10 +71,4 @@ class EmployeeRepositoryTest {
         assertThat(employeeRepository.count()).isLessThan(initialRepositorySize);
     }
 
-    // made change to check is jenkins server trigger works properlly
-
-
-
-
-
 }
