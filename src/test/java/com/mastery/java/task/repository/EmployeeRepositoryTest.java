@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
@@ -14,13 +15,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 @DataJpaTest(properties = {
         "spring.test.database.replace=NONE"
 })
 @Slf4j
+@DirtiesContext
 class EmployeeRepositoryTest {
 
-    // basic schema and insertions are made by liquibase script from resources/db/changelog/dbChanges
+    // basic schema and insertions are made by liquibase scripts from resources/db/changelog/dbChanges
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -52,7 +55,7 @@ class EmployeeRepositoryTest {
     public void shouldRejectTooYoungEmployee() {
         //given
         Employee employee = new Employee(null, "Peter", "Paul", 3L, "Technician", LocalDate.of(LocalDate.now().getYear() - 17, 1, 1), Gender.MALE);
-        log.info("Employee birthDate {} e {}", employee.getDateOfBirth(), employee);
+        log.info("Employee birthDate {}, employee: {}", employee.getDateOfBirth(), employee);
         // when + then
         Assertions.assertThrows(ConstraintViolationException.class, () -> employeeRepository.save(employee));
     }
@@ -62,7 +65,7 @@ class EmployeeRepositoryTest {
         //given + when
         Long initialRepositorySize = employeeRepository.count();
         log.info("RepositorySize: {} ", initialRepositorySize);
-        employeeRepository.deleteById(5L);
+        employeeRepository.deleteById(1L);
         log.info("RepositorySize: {} ", employeeRepository.count());
         //then
         assertThat(employeeRepository.count()).isLessThan(initialRepositorySize);
