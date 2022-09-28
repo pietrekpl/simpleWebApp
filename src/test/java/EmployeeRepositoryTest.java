@@ -1,7 +1,6 @@
-package com.mastery.java.task.repository;
-
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
+import com.mastery.java.task.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
