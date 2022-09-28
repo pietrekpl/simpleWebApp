@@ -1,5 +1,3 @@
-package com.mastery.java.task.repository;
-
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
 import com.mastery.java.task.repository.EmployeeRepository;
@@ -72,6 +70,6 @@ class EmployeeRepositoryTest {
         assertThat(employeeRepository.count()).isLessThan(initialRepositorySize);
     }
 
- /// test
+
 
 }
