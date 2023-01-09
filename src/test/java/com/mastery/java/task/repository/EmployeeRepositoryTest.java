@@ -4,6 +4,7 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -26,6 +27,8 @@ class EmployeeRepositoryTest {
     // basic schema and insertions are made by liquibase scripts from resources/db/changelog/dbChanges
     @Autowired
     private EmployeeRepository employeeRepository;
+
+
 
     @Test
     void shouldReturnEmptyListWhenNoFirstNameOrLastNameNotFound() {

@@ -46,7 +46,8 @@ public class EmployeeService {
     }
 
     public void updateEmployee(Employee employee, Long id) {
-        Employee existingEmployee = employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
+        Employee existingEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee with ID " + id + " not found"));
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setJobTitle(employee.getJobTitle());

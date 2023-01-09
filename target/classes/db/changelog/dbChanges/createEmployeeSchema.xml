@@ -1,0 +1,49 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1" author="p.ludynia">
+        <comment>Create employee schema</comment>
+        <createTable tableName="employee">
+            <column name="employee_id" type="serial" autoIncrement="true" incrementBy="1">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birth" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="clob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="department_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+    </changeSet>
+    <changeSet id="2" author="pludynia">
+        <comment>add gender check constraint</comment>
+        <sql>
+            ALTER TABLE employee ADD CONSTRAINT gender_check CHECK (LOWER(gender) IN('male','female'))
+        </sql>
+    </changeSet>
+    <changeSet id="3" author="pludynia">
+        <comment>add age check constraint</comment>
+        <sql>
+            ALTER TABLE employee ADD CONSTRAINT age_check CHECK (date_part('year', AGE(date_of_birth)) >=18);
+        </sql>
+    </changeSet>
+
+
+</databaseChangeLog>
