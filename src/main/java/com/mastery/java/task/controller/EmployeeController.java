@@ -25,6 +25,12 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Tag(name = "employees", description = "Add / Get / Update / Delete employee")
+@CrossOrigin(origins = "http://localhost:4200/", methods = {
+        RequestMethod.GET,
+        RequestMethod.POST,
+        RequestMethod.DELETE,
+        RequestMethod.PUT
+})
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -137,9 +143,9 @@ public class EmployeeController {
                                   """)})),
             @ApiResponse(description = "Internal Server Error", responseCode = "500")})
     public void updateEmployee(@Valid @RequestBody Employee employee,
-                                   @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
+                               @Parameter(name = "id", description = "Employee ID", required = true, example = "1") @PathVariable("id") Long id) {
         log.info("Method updateEmployee() takes id = {}", id);
-         employeeService.updateEmployee(employee, id);
+        employeeService.updateEmployee(employee, id);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
