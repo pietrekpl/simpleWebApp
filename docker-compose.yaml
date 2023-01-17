@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: pludynia/simple-web-app:v1.2
+    image: pludynia/simple-web-app:1.4
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employeedb
@@ -13,6 +13,17 @@ services:
     depends_on:
       - activemq
       - postgres
+
+  angular:
+    container_name: angular
+    image: pludynia/simple-web-app-frontend:1.4
+    restart: on-failure
+    ports:
+      - "4200:80"
+    depends_on:
+      - postgres
+      - activemq
+      - app
 
   activemq:
     container_name: active
