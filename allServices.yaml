@@ -9,6 +9,7 @@ metadata:
     io.kompose.service: activemq
   name: activemq
 spec:
+  type: LoadBalancer
   ports:
     - name: "61616"
       port: 61616
@@ -16,7 +17,6 @@ spec:
     - name: "8161"
       port: 8161
       targetPort: 8161
-  type: LoadBalancer
   selector:
     io.kompose.service: activemq
 status:
@@ -33,11 +33,11 @@ metadata:
     io.kompose.service: angular
   name: angular
 spec:
+  type: LoadBalancer
   ports:
     - name: "4200"
       port: 4200
       targetPort: 80
-  type: LoadBalancer
   selector:
     io.kompose.service: angular
 status:
@@ -54,11 +54,11 @@ metadata:
     io.kompose.service: app
   name: app
 spec:
+  type: LoadBalancer
   ports:
     - name: "8080"
       port: 8080
       targetPort: 8080
-  type: LoadBalancer
   selector:
     io.kompose.service: app
 status:
@@ -75,11 +75,11 @@ metadata:
     io.kompose.service: postgres
   name: postgres
 spec:
+  type: LoadBalancer
   ports:
     - name: "5432"
       port: 5432
       targetPort: 5432
-  type: LoadBalancer
   selector:
     io.kompose.service: postgres
 status:

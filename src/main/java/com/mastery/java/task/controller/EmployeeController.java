@@ -19,18 +19,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/employees")
+
 @Slf4j
 @RequiredArgsConstructor
 @Tag(name = "employees", description = "Add / Get / Update / Delete employee")
-@CrossOrigin(origins = "http://localhost:4200/", methods = {
-        RequestMethod.GET,
-        RequestMethod.POST,
-        RequestMethod.DELETE,
-        RequestMethod.PUT
-})
+@CrossOrigin(origins = "*", maxAge = 3600,
+        methods = {RequestMethod.GET,
+                RequestMethod.POST,
+                RequestMethod.DELETE,
+                RequestMethod.PUT})
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -159,6 +158,7 @@ public class EmployeeController {
         employeeService.deleteEmployeeById(id);
     }
 }
+
 
 
 
