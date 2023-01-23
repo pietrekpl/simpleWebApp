@@ -51,14 +51,14 @@ metadata:
     kompose.version: 1.27.0 (b0ed6a2c9)
   creationTimestamp: null
   labels:
-    io.kompose.service: app
+    app: app
   name: app
 spec:
-  type: LoadBalancer
   ports:
     - name: "8080"
       port: 8080
       targetPort: 8080
+  type: ClusterIP
   selector:
     io.kompose.service: app
 status:
