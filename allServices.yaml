@@ -9,14 +9,16 @@ metadata:
     io.kompose.service: activemq
   name: activemq
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: "61616"
       port: 61616
       targetPort: 61616
+      protocol: TCP
     - name: "8161"
       port: 8161
       targetPort: 8161
+      protocol: TCP
   selector:
     io.kompose.service: activemq
 status:
@@ -33,11 +35,12 @@ metadata:
     io.kompose.service: angular
   name: angular
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: "4200"
       port: 4200
       targetPort: 80
+      protocol: TCP
   selector:
     io.kompose.service: angular
 status:
@@ -58,6 +61,7 @@ spec:
     - name: "8080"
       port: 8080
       targetPort: 8080
+      protocol: TCP
   type: ClusterIP
   selector:
     io.kompose.service: app
@@ -75,11 +79,12 @@ metadata:
     io.kompose.service: postgres
   name: postgres
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - name: "5432"
       port: 5432
       targetPort: 5432
+      protocol: TCP
   selector:
     io.kompose.service: postgres
 status:
