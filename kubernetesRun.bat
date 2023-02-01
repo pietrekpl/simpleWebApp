@@ -1,9 +1,8 @@
 kubectl apply -f allAppDeployment.yaml
-
 kubectl apply -f allServices.yaml
 
 @echo off
-@timeout /t 15
+@timeout /t 24
 
 
 start "App" "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoExit "-Command" "kubectl port-forward services/app 8080:8080"

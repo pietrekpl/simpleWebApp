@@ -16,7 +16,7 @@ services:
 
   angular:
     container_name: angular
-    image: pludynia/simple-web-app-frontend:1.5
+    image: pludynia/simple-web-app-frontend:1.6
     restart: always
     ports:
       - "4200:80"
