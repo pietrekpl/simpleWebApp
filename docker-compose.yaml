@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: pludynia/simple-web-app:1.5
+    image: pludynia/simple-web-app:1.6
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employeedb
@@ -32,6 +32,17 @@ services:
     ports:
       - "61616:61616"
       - "8161:8161"
+
+  prometheus:
+    image: prom/prometheus:v2.38.0
+    container_name: prometheus
+    volumes:
+      -  ./monitoring/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - "9090:9090"
+    restart: always
 
   liquibase:
     container_name: liquibase
