@@ -13,6 +13,10 @@ start "ActiveMQ" "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -No
 
 start "Postgres" "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoExit "-Command" "kubectl port-forward services/postgres 5432:5432"
 
+start "Postgres" "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoExit "-Command" "kubectl port-forward services/grafana 3000:3000"
+
+start "Postgres" "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -NoExit "-Command" "kubectl port-forward services/prometheus 9090:9090"
+
 
 
 
