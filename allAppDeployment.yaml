@@ -92,7 +92,7 @@ spec:
               value: tcp://activemq:61616
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://postgres:5432/employeedb
-          image: pludynia/simple-web-app:1.8
+          image: pludynia/simple-web-app:1.9
           name: app
           ports:
             - containerPort: 8080
