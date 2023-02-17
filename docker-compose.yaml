@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     container_name: app
-    image: pludynia/simple-web-app:1.7
+    image: pludynia/simple-web-app:1.8
     restart: always
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employeedb
@@ -16,7 +16,7 @@ services:
 
   angular:
     container_name: angular
-    image: pludynia/simple-web-app-frontend:1.6
+    image: pludynia/simple-web-app-frontend:1.7
     restart: always
     ports:
       - "4200:80"
