@@ -1,7 +1,9 @@
 package com.mastery.java.task.controller;
 
 
-import com.mastery.java.task.excel.EmployeeExcelExporter;
+import com.mastery.java.task.exports.excel.EmployeeExcelExporter;
+import com.mastery.java.task.exports.pdf.EmployeePdfExporter;
+import com.mastery.java.task.exports.utils.ExportResponseUtils;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +37,8 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+
+    private final ExportResponseUtils exportResponseUtils;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
@@ -168,12 +172,26 @@ public class EmployeeController {
 
         EmployeeExcelExporter employeeExcelExporter = new EmployeeExcelExporter(employees);
 
-        employeeExcelExporter.setResponse(response);
+        exportResponseUtils.setResponse(response,"application/octet-stream",".xlsx");
 
         employeeExcelExporter.export(response);
 
         log.info("Method exportToExcel()");
+    }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/export/pdf")
+    public void exportToPdf(HttpServletResponse response) throws IOException {
+
+        exportResponseUtils.setResponse(response,"application/pdf",".pdf");
+
+        List<Employee> employees = employeeService.filterEmployeesByFirstNameOrLastName("","");
+
+        EmployeePdfExporter employeePdfExporter = new EmployeePdfExporter(employees);
+
+        employeePdfExporter.export(response);
+
+        log.info("Method exportToPdf()");
     }
 
 
