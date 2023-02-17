@@ -1,6 +1,7 @@
 package com.mastery.java.task.controller;
 
 
+import com.mastery.java.task.excel.EmployeeExcelExporter;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,8 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -157,6 +159,26 @@ public class EmployeeController {
         log.info("Method deleteEmployee() takes id = {}", id);
         employeeService.deleteEmployeeById(id);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/export/excel")
+    public void exportToExcel(HttpServletResponse response) throws IOException {
+
+        List<Employee> employees = employeeService.filterEmployeesByFirstNameOrLastName("","");
+
+        EmployeeExcelExporter employeeExcelExporter = new EmployeeExcelExporter(employees);
+
+        employeeExcelExporter.setResponse(response);
+
+        employeeExcelExporter.export(response);
+
+        log.info("Method exportToExcel()");
+
+    }
+
+
+
+
 }
 
 

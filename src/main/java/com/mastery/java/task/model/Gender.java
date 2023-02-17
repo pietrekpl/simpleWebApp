@@ -7,9 +7,9 @@ import lombok.*;
 @ToString
 public enum Gender {
     @JsonProperty("male")
-    MALE,
+    MALE ,
     @JsonProperty("female")
-    FEMALE
+    FEMALE;
 }
 
 
